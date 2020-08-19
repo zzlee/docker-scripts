@@ -3,7 +3,7 @@
 . /etc/profile
 
 echo ------------------------------------------------------------------------------------------------
-echo TARGET=$TARGET
+TARGET=ubuntu1804_x64
 
 cd /home/zzlee/dev/qcap-dev/qcap
 mkdir build-$TARGET

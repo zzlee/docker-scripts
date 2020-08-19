@@ -1,8 +1,8 @@
 #!/bin/sh
 
-REPO=ubuntu1804-zzlee.local:5000
-TAG=v1
-RUN_ARGS="--rm -a stdout -a stderr -v ${HOME}:/home/zzlee/dev/"
+. ./docker_env.sh
+
+RUN_ARGS="--rm -a stdout -a stderr -v ${DOCKER_HOME}:/home/zzlee/dev/"
 TARGET=$1
 
 echo "Building $TARGET..."
