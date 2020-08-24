@@ -11,4 +11,4 @@ cd build-$TARGET
 rm lib/* -r
 rm bin/* -r
 HI3531A_SDK_HOME=/home/zzlee/dev/hi3531a-sdk/Hi3531A_SDK_V1.0.2.0 cmake .. -DBUILD_TARGET=$TARGET
-make install
+make install -j 4

@@ -10,4 +10,4 @@ mkdir build
 cd build
 H2_LINUX_SDK=/home/zzlee/dev/h2_linux_sdk cmake ../cmake
 
-make
+make -j 4

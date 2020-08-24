@@ -11,4 +11,4 @@ cd build-$TARGET
 rm lib/* -r
 rm bin/* -r
 HI3519A_SDK_HOME=/home/zzlee/dev/hi3519a-sdk/Hi3519AV100_SDK_V2.0.2.0 cmake .. -DBUILD_TARGET=$TARGET
-make install
+make install -j 4
