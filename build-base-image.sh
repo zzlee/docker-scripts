@@ -12,6 +12,7 @@ cd tmp
 echo FROM ${IMAGE_PATH} > Dockerfile
 echo USER root >> Dockerfile
 echo "RUN echo zzlee:zzlee | chpasswd" >> Dockerfile
+echo "WORKDIR /home/zzlee" >> Dockerfile
 echo USER zzlee >> Dockerfile
 
 cat Dockerfile
