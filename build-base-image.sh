@@ -9,12 +9,14 @@ IMAGE_PATH=${REPO}/${IMAGE}:${TAG}
 mkdir tmp
 cd tmp
 
-echo FROM ${IMAGE_PATH} > Dockerfile
-echo USER root >> Dockerfile
-echo "RUN echo zzlee:zzlee | chpasswd" >> Dockerfile
-echo USER zzlee >> Dockerfile
-echo "WORKDIR /home/zzlee" >> Dockerfile
-echo CMD ". /etc/profile && bash" >> Dockerfile
+cat <<EOF > Dockerfile
+FROM ${IMAGE_PATH}
+
+RUN echo zzlee:zzlee | chpasswd
+USER zzlee
+WORKDIR /home/zzlee
+CMD ["/bin/bash", "-c", ". /etc/profile && /bin/bash"]
+EOF
 
 cat Dockerfile
 
