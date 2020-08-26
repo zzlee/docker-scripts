@@ -12,6 +12,7 @@ cd tmp
 cat <<EOF > Dockerfile
 FROM ${IMAGE_PATH}
 
+USER root
 RUN echo zzlee:zzlee | chpasswd
 USER zzlee
 WORKDIR /home/zzlee
