@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. ./docker_env.sh
+DOCKER_HOME=$(pwd)/..
 
 echo Starting registry @ ${DOCKER_HOME}/registry
 
