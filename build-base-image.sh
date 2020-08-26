@@ -10,6 +10,7 @@ mkdir tmp
 cd tmp
 
 echo FROM ${IMAGE_PATH} > Dockerfile
+echo USER root >> Dockerfile
 echo "RUN echo zzlee:zzlee | chpasswd" >> Dockerfile
 echo USER zzlee >> Dockerfile
 
