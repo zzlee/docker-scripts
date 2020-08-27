@@ -2,7 +2,7 @@
 
 . /etc/profile
 
-TARGET=ubuntu1804-cuda_x64
+TARGET=ubuntu1604-cuda_x64
 
 cd /home/zzlee/dev/qcap-dev/qcap
 mkdir build-$TARGET
