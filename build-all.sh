@@ -1,5 +1,7 @@
 #/bin/sh
 
+find ../qcap-dev/qcap/build-* -name *.tar.gz -exec rm {} \;
+
 ./build.sh hisiv hi3531a
 ./build.sh hisiv hi3531a400
 ./build.sh hisiv hi3531d
