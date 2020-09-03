@@ -20,3 +20,9 @@ docker pull ${REPO}/${IMAGE}:${TAG}
 
 IMAGE=centos76_x64
 docker pull ${REPO}/${IMAGE}:${TAG}
+
+IMAGE=heroku
+docker pull ${REPO}/${IMAGE}:${TAG}
+
+IMAGE=debian105_x64
+docker pull ${REPO}/${IMAGE}:${TAG}
