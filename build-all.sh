@@ -16,3 +16,6 @@ find ../qcap-dev/qcap/build-* -name *.tar.gz -exec rm {} \;
 
 ./build.sh centos76_x64 centos76_x64
 ./build.sh centos76_x64 centos76-cuda_x64
+
+./build.sh debian105_x64 debian105_x64
+./build.sh debian105_x64 debian105-cuda_x64
