@@ -5,7 +5,7 @@
 TARGET=hi3531a
 
 cd /home/zzlee/dev/qcap-dev/qcap
-mkdir build-$TARGET
+mkdir -p build-$TARGET
 cd build-$TARGET
 
 if [ "$1" = "install" ]; then
