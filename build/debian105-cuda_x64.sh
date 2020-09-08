@@ -11,4 +11,4 @@ cd build-$TARGET
 rm lib/* -r
 rm bin/* -r
 cmake .. -DBUILD_TARGET=$TARGET
-make install -j 4
+make $@ -j 4

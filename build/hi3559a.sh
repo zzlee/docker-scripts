@@ -11,4 +11,4 @@ cd build-$TARGET
 rm lib/* -r
 rm bin/* -r
 HI3559A_SDK_HOME=/home/zzlee/dev/hi3559a-sdk/Hi3559AV100_SDK_V2.0.2.0 cmake .. -DBUILD_TARGET=$TARGET
-make install -j 4
+make $@ -j 4
