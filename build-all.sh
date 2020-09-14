@@ -1,6 +1,6 @@
 #/bin/sh
 
-find ../qcap-dev/qcap/build-* -name *.tar.gz -exec rm {} \;
+./clean-all-builds.sh
 
 ./build.sh hisiv hi3531a install
 ./build.sh hisiv hi3531a400 install
@@ -19,3 +19,5 @@ find ../qcap-dev/qcap/build-* -name *.tar.gz -exec rm {} \;
 
 ./build.sh debian105_x64 debian105_x64 install
 ./build.sh debian105_x64 debian105-cuda_x64 install
+
+./cp-all-builds.sh
