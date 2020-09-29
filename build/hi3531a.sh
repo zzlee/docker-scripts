@@ -13,5 +13,5 @@ if [ "$1" = "install" ]; then
 	rm bin/* -r
 fi
 
-HI3531A_SDK_HOME=/home/zzlee/dev/hi3531a-sdk/Hi3531A_SDK_V1.0.2.0 cmake .. -DBUILD_TARGET=$TARGET
+HI3531A_SDK_HOME=/home/zzlee/dev/hi3531a-sdk/Hi3531A_SDK_V1.0.2.0 cmake .. -DBUILD_TARGET=$TARGET -DCMAKE_BUILD_TYPE=Release
 make $@ -j 4
