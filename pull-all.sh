@@ -1,28 +1,11 @@
 #!/bin/sh
 
-REPO=ubuntu1804-zzlee.local:5000
-TAG=v1
-
-IMAGE=hisiv
-docker pull ${REPO}/${IMAGE}:${TAG}
-
-IMAGE=h2_linux_sdk
-docker pull ${REPO}/${IMAGE}:${TAG}
-
-IMAGE=mxe-avbase
-docker pull ${REPO}/${IMAGE}:${TAG}
-
-IMAGE=ubuntu1804_x64
-docker pull ${REPO}/${IMAGE}:${TAG}
-
-IMAGE=ubuntu1604_x64
-docker pull ${REPO}/${IMAGE}:${TAG}
-
-IMAGE=centos76_x64
-docker pull ${REPO}/${IMAGE}:${TAG}
-
-IMAGE=heroku
-docker pull ${REPO}/${IMAGE}:${TAG}
-
-IMAGE=debian105_x64
-docker pull ${REPO}/${IMAGE}:${TAG}
+./pull-image.sh hisiv
+./pull-image.sh h2_linux_sdk
+./pull-image.sh mxe-avbase
+./pull-image.sh ubuntu1804_x64
+./pull-image.sh ubuntu1604_x64
+./pull-image.sh centos76_x64
+./pull-image.sh heroku
+./pull-image.sh debian105_x64
+./pull-image.sh ubuntu1804_tx2
