@@ -13,5 +13,5 @@ if [ "$1" = "install" ]; then
 	rm bin/* -r
 fi
 
-cmake .. -DBUILD_TARGET=$TARGET
+cmake .. -DBUILD_TARGET=$TARGET -DCMAKE_BUILD_TYPE=Release
 make $@ -j 4
