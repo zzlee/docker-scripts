@@ -20,4 +20,6 @@
 ./build.sh debian105_x64 debian105_x64 install
 ./build.sh debian105_x64 debian105-cuda_x64 install
 
+./build.sh ubuntu1804_tx2 ubuntu1804_tx2 install
+
 ./cp-all-builds.sh
