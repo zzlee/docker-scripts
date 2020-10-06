@@ -14,7 +14,7 @@ FROM ${IMAGE_PATH}
 
 USER zzlee
 WORKDIR /home/zzlee
-ENTRYPOINT ["/bin/bash", "--login"]
+CMD ["/bin/bash", "--login"]
 EOF
 
 cat Dockerfile
