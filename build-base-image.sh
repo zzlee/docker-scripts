@@ -1,7 +1,7 @@
 #!/bin/sh
 
 IMAGE=$1
-REPO=ubuntu1804-zzlee.local:5000
+REPO=qcap-registry:5000
 TAG=v1
 
 IMAGE_PATH=${REPO}/${IMAGE}:${TAG}
@@ -12,11 +12,9 @@ cd tmp
 cat <<EOF > Dockerfile
 FROM ${IMAGE_PATH}
 
-USER root
-RUN echo zzlee:zzlee | chpasswd
 USER zzlee
 WORKDIR /home/zzlee
-CMD ["/bin/bash", "-c", ". /etc/profile && /bin/bash"]
+ENTRYPOINT ["/bin/bash", "--login"]
 EOF
 
 cat Dockerfile
