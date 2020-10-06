@@ -1,6 +1,7 @@
 #!/bin/sh
 
 ./pull-image.sh hisiv
+./pull-image.sh hisiv510
 ./pull-image.sh h2_linux_sdk
 ./pull-image.sh mxe-avbase
 ./pull-image.sh ubuntu1804_x64

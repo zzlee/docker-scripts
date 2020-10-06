@@ -1,6 +1,7 @@
 #/bin/sh
 
 ./build-base-image.sh hisiv
+./build-base-image.sh hisiv510
 ./build-base-image.sh h2_linux_sdk
 ./build-base-image.sh mxe-avbase
 ./build-base-image.sh ubuntu1804_x64
