@@ -1,7 +1,5 @@
 #!/bin/sh
 
-. /etc/profile
-
 TARGET=hi3559a
 
 cd /home/zzlee/dev/qcap-dev/qcap

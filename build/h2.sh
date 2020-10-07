@@ -1,7 +1,5 @@
 #!/bin/sh
 
-. /etc/profile
-
 cd /home/zzlee/dev/h2_linux_sdk/ambarella/
 . build/env/aarch64-linaro-gcc.env
 

@@ -1,7 +1,5 @@
 #!/bin/sh
 
-. /etc/profile
-
 TARGET=ubuntu1604-cuda_x64
 
 cd /home/zzlee/dev/qcap-dev/qcap

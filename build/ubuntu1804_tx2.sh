@@ -1,7 +1,5 @@
 #!/bin/sh
 
-. /etc/profile
-
 TARGET=ubuntu1804_tx2
 
 cd /home/zzlee/dev/qcap-dev/qcap
