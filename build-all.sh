@@ -4,6 +4,7 @@
 
 ./build.sh hisiv hi3531a install
 ./build.sh hisiv hi3531a400 install
+./build.sh hisiv510 hi3531a510 install
 ./build.sh hisiv hi3531d install
 ./build.sh hisiv hi3519a install
 ./build.sh hisiv hi3559a install
