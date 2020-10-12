@@ -1,6 +1,7 @@
 #/bin/sh
 
 ./clean-all-builds.sh
+rm ../qcap-builds/*.tar.gz
 
 ./build.sh hisiv300 hi3531a install
 ./build.sh hisiv400 hi3531a400 install
