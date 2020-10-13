@@ -1,11 +1,11 @@
 #!/bin/sh
 
-cd /home/zzlee/dev/h2_linux_sdk/ambarella/
+cd /docker/h2_linux_sdk/ambarella/
 . build/env/aarch64-linaro-gcc.env
 
-cd /home/zzlee/dev/h2
+cd /docker/h2
 mkdir -p build
 cd build
-H2_LINUX_SDK=/home/zzlee/dev/h2_linux_sdk cmake ../cmake
+H2_LINUX_SDK=/docker/h2_linux_sdk cmake ../cmake
 
 make $@ -j 4

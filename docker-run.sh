@@ -3,14 +3,14 @@
 IMAGE=$1
 shift
 
-sudo docker run -it \
+docker run -it --rm \
 	--workdir /docker \
 	-v $(pwd)/..:/docker \
-	--env=HOST_UID=$(id -u) \
-	--env=HOST_GID=$(id -g) \
-	--env=USER=${USER} \
-	--volume="${HOME}/.ssh:/home/${USER}/.ssh" \
-	--volume="${HOME}/.gitconfig:/home/${USER}/.gitconfig" \
+	--env=HOST_UID=${SUDO_UID} \
+	--env=HOST_GID=${SUDO_GID} \
+	--env=USER=${SUDO_USER} \
+	--volume="${HOME}/.ssh:/home/${SUDO_USER}/.ssh" \
+	--volume="${HOME}/.gitconfig:/home/${SUDO_USER}/.gitconfig" \
 	--volume="/etc/localtime:/etc/localtime:ro" \
 	--env="DISPLAY" \
 	--env="QT_X11_NO_MITSHM=1" \

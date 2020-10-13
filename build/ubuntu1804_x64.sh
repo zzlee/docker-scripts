@@ -2,7 +2,7 @@
 
 TARGET=ubuntu1804_x64
 
-cd /home/zzlee/dev/qcap-dev/qcap
+cd /docker/qcap-dev/qcap
 mkdir -p build-$TARGET
 cd build-$TARGET
 
