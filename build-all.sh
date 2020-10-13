@@ -1,27 +1,30 @@
 #/bin/sh
 
+REPO=qcap-registry:5000
+TAG=v1
+
 ./clean-all-builds.sh
 rm ../qcap-builds/*.tar.gz
 
-./build.sh hisiv300 hi3531a install
-./build.sh hisiv400 hi3531a400 install
-./build.sh hisiv500 hi3531d install
-./build.sh hisiv510 hi3531a510 install
-./build.sh himix200 hi3519a install
-./build.sh himix100 hi3559a install
+./build.sh ${REPO}/hisiv300:${TAG} hi3531a install
+./build.sh ${REPO}/hisiv400:${TAG} hi3531a400 install
+./build.sh ${REPO}/hisiv500:${TAG} hi3531d install
+./build.sh ${REPO}/hisiv510:${TAG} hi3531a510 install
+./build.sh ${REPO}/himix200:${TAG} hi3519a install
+./build.sh ${REPO}/himix100:${TAG} hi3559a install
 
-./build.sh ubuntu1804_x64 ubuntu1804_x64 install
-./build.sh ubuntu1804_x64 ubuntu1804-cuda_x64 install
+./build.sh ${REPO}/ubuntu1804_x64:${TAG} ubuntu1804_x64 install
+./build.sh ${REPO}/ubuntu1804_x64:${TAG} ubuntu1804-cuda_x64 install
 
-./build.sh ubuntu1604_x64 ubuntu1604_x64 install
-./build.sh ubuntu1604_x64 ubuntu1604-cuda_x64 install
+./build.sh ${REPO}/ubuntu1604_x64:${TAG} ubuntu1604_x64 install
+./build.sh ${REPO}/ubuntu1604_x64:${TAG} ubuntu1604-cuda_x64 install
 
-./build.sh centos76_x64 centos76_x64 install
-./build.sh centos76_x64 centos76-cuda_x64 install
+./build.sh ${REPO}/centos76_x64:${TAG} centos76_x64 install
+./build.sh ${REPO}/centos76_x64:${TAG} centos76-cuda_x64 install
 
-./build.sh debian105_x64 debian105_x64 install
-./build.sh debian105_x64 debian105-cuda_x64 install
+./build.sh ${REPO}/debian105_x64:${TAG} debian105_x64 install
+./build.sh ${REPO}/debian105_x64:${TAG} debian105-cuda_x64 install
 
-./build.sh ubuntu1804_tx2 ubuntu1804_tx2 install
+./build.sh ${REPO}/ubuntu1804_tx2:${TAG} ubuntu1804_tx2 install
 
 ./cp-all-builds.sh
