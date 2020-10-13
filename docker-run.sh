@@ -3,9 +3,9 @@
 IMAGE=$1
 shift
 
-docker run -it --rm \
+docker run -it 	\
 	--workdir /docker \
-	-v $(pwd)/..:/docker \
+	--volume $(pwd)/..:/docker \
 	--env=HOST_UID=${SUDO_UID} \
 	--env=HOST_GID=${SUDO_GID} \
 	--env=USER=${SUDO_USER} \
