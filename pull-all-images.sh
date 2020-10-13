@@ -14,3 +14,4 @@
 ./pull-image.sh heroku
 ./pull-image.sh debian105_x64
 ./pull-image.sh ubuntu1804_tx2
+./pull-image.sh sls-server
