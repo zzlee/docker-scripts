@@ -6,4 +6,4 @@ TARGET=$2
 shift 2
 
 echo "Building ${TARGET} @ ${IMAGE}... $@"
-docker run --rm -it -v $(pwd)/..:/home/zzlee/dev/ ${IMAGE} /bin/bash --login -c "/home/zzlee/dev/docker-scripts/build/${TARGET}.sh $@"
+./docker-run.sh ${IMAGE} "su ${USER} -c /bin/bash --login -c /docker/docker-scripts/build/${TARGET}.sh $@"
