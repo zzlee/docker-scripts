@@ -14,3 +14,4 @@
 ./push-image.sh heroku
 ./push-image.sh debian105_x64
 ./push-image.sh ubuntu1804_tx2
+./push-image.sh sls-server
