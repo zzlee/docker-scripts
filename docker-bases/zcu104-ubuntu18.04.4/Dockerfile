@@ -1,4 +1,4 @@
-FROM ubuntu:18.04.4
+FROM qcap-registry:5000/ubuntu:18.04.4
 
 RUN dpkg --add-architecture i386
 
