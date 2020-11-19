@@ -1,5 +1,6 @@
 #!/bin/bash
 
+DOCKER_ARGS=${DOCKER_ARGS}
 IMAGE=$1
 shift
 
@@ -13,4 +14,5 @@ docker run -it \
 	--env="DISPLAY" \
 	--env="QT_X11_NO_MITSHM=1" \
 	--mac-address="02:42:ac:11:00:03" \
-	--volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" ${IMAGE} $@
+	--volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+	${DOCKER_ARGS} ${IMAGE} $@
