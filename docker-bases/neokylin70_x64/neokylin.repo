@@ -1,0 +1,13 @@
+[neokylin]
+name= NeoKylin 7.0
+baseurl=http://download.cs2c.com.cn/neokylin/desktop/releases/7.0/x86_64/zx/os/
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-neokylin-$basearch
+
+[neokylin-32]
+name= NeoKylin 7.0 32-bit
+baseurl=http://download.cs2c.com.cn/neokylin/desktop/releases/7.0/i386/os/
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-neokylin-i386

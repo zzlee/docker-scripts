@@ -15,4 +15,6 @@ docker run -it \
 	--env="QT_X11_NO_MITSHM=1" \
 	--mac-address="02:42:ac:11:00:03" \
 	--volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+	--device=/dev/dri \
+	--group-add video \
 	${DOCKER_ARGS} ${IMAGE} $@
