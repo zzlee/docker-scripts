@@ -1,0 +1,9 @@
+prefix=/docker/qcap-dev/3rdparty/libuio/xlnk_arm64
+exec_prefix=${prefix}
+includedir=${prefix}/include
+
+Name: libuio
+Description: UserspaceIO helper library
+Version: 0.2.8
+Libs: -luio
+Cflags: -I${includedir}

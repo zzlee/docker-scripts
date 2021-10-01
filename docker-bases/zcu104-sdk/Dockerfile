@@ -1,6 +1,4 @@
-FROM qcap-registry:5000/ubuntu:18.04.2
-
-RUN dpkg --add-architecture i386
+FROM ubuntu:18.04
 
 ENV TZ=Asia/Taipei
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
@@ -23,6 +21,12 @@ ENV LC_ALL en_US.UTF-8
 # Xilinx's petalinux need this
 RUN echo "dash dash/sh boolean false" | debconf-set-selections
 RUN DEBIAN_FRONTEND=noninteractive dpkg-reconfigure dash
+
+# install petalinux SDK
+ADD sdk.sh /tmp/sdk.sh
+RUN chmod +x /tmp/sdk.sh
+RUN /tmp/sdk.sh
+RUN rm /tmp.sdk.sh
 
 # Add entry point, we use entrypoint.sh to mapping host user to
 # container

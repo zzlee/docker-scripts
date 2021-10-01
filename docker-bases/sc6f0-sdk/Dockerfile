@@ -1,4 +1,4 @@
-FROM arm64v8/debian:bullseye
+FROM ubuntu:18.04
 
 ENV TZ=Asia/Taipei
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
@@ -7,9 +7,10 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt-get update -y
 
 # Essentials
-RUN apt-get install -y adduser apt base-files base-passwd bash bash-completion binutils build-essential xz-utils cmake git vim zlib1g zlib1g-dev libboost-dev libz-dev libavcodec-dev libavutil-dev libavformat-dev libswscale-dev libresample-dev libavdevice-dev libfontconfig1-dev libasound-dev libboost-all-dev libx11-dev libxv-dev locales automake autopoint libtool libglib2.0-dev texinfo libi2c-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libglib2.0-dev avahi-utils
+RUN apt-get install -y adduser apt base-files base-passwd bash bash-completion binutils binutils-common cmake cmake-data git python
 
 # Set the locale, else yocto will complain
+RUN apt-get install locales -y
 RUN locale-gen en_US.UTF-8 && \
 	DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales
 ENV LANG en_US.UTF-8
@@ -21,8 +22,13 @@ ENV LC_ALL en_US.UTF-8
 RUN echo "dash dash/sh boolean false" | debconf-set-selections
 RUN DEBIAN_FRONTEND=noninteractive dpkg-reconfigure dash
 
-COPY ./rootfs/usr /usr
-RUN ldconfig
+# install petalinux SDK
+#ADD sdk.sh /tmp/sdk.sh
+#RUN chmod +x /tmp/sdk.sh
+#RUN /tmp/sdk.sh -y -d /opt/sc6f0
+#RUN rm /tmp/sdk.sh
+
+COPY ./rootfs/usr /opt/sc6f0/sysroots/aarch64-xilinx-linux/usr
 
 # Add entry point, we use entrypoint.sh to mapping host user to
 # container
