@@ -13,7 +13,7 @@
 ./sync-image.sh ubuntu2004_x64:v1
 ./sync-image.sh debian105_x64:v1
 ./sync-image.sh ubuntu1604_x64:v1
-./sync-image.sh zcu104
+./sync-image.sh petalinux
 ./sync-image.sh himix200:v1
 ./sync-image.sh hisiv510:v1
 ./sync-image.sh hisiv500:v1
