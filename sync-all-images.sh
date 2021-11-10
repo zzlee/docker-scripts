@@ -1,5 +1,6 @@
 #/bin/sh
 
+./sync-image.sh mxe-avbase:v1
 ./sync-image.sh sc6f0-sdk:v1
 ./sync-image.sh xlnk_arm64:v1
 ./sync-image.sh rockchip_aarch64:v1
