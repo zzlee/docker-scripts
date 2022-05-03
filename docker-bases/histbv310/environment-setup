@@ -1,0 +1,18 @@
+#!/bin/sh
+
+OLD_PWD=${PWD}
+cd /opt/hisdk/
+. ./env.sh
+cd ${OLD_PWD}
+
+export "CROSS_COMPILE=arm-histbv310-linux-"
+export "CFLAGS=-mcpu=cortex-a53 -mfloat-abi=softfp -mfpu=vfpv3-d16"
+export "CXXFLAGS=-mcpu=cortex-a53 -mfloat-abi=softfp -mfpu=vfpv3-d16"
+
+export "CC=arm-histbv310-linux-gcc -mcpu=cortex-a53 -mfloat-abi=softfp -mfpu=vfpv3-d16"
+export "CXX=arm-histbv310-linux-g++ -mcpu=cortex-a53 -mfloat-abi=softfp -mfpu=vfpv3-d16"
+export "AR=arm-histbv310-linux-ar"
+export "LD=arm-histbv310-linux-ld"
+export "NM=arm-histbv310-linux-nm"
+export "RANLIB=arm-histbv310-linux-ranlib"
+export "STRIP=arm-histbv310-linux-strip"

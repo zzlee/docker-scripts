@@ -5,6 +5,7 @@ IMAGE=$1
 shift
 
 docker run -it \
+	--rm \
 	--workdir /docker \
 	--volume $(pwd)/..:/docker \
 	--env=HOST_UID=${SUDO_UID} \
