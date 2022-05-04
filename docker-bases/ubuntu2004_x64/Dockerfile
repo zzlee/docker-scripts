@@ -8,7 +8,15 @@ RUN apt-get install -y bash-completion build-essential git vim wget cpio
 
 # CMake
 RUN apt-get install -y libssl-dev libncurses-dev
-RUN cd /tmp && git clone https://github.com/Kitware/CMake.git && cd CMake && git checkout v3.22.3 -b build-branch && ./configure && make && make install
+RUN cd /tmp && git clone https://github.com/Kitware/CMake.git && \
+	cd CMake && git checkout v3.22.3 -b build-branch && \
+	./configure && make && make install
+
+# NASM
+RUN apt-get install -y libtool
+RUN cd /tmp && wget https://www.nasm.us/pub/nasm/releasebuilds/2.15.05/nasm-2.15.05.tar.gz && \
+	tar xvf nasm-2.15.05.tar.gz && cd nasm-2.15.05 && \
+	./autogen.sh && ./configure && make && make install
 
 # 3rdparty libs
 RUN apt-get install -y libasound2-dev libx11-dev libxv-dev libva-dev libvdpau-dev libfontconfig1-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev
@@ -20,9 +28,16 @@ RUN tar xvf /tmp/l_ipp_8.1.0.144.tgz -C tmp
 RUN cd /tmp/l_ipp_8.1.0.144 && ./install.sh -s /tmp/my-silent.cfg
 
 # CUDA
-RUN apt-get install -y software-properties-common && cd /tmp && wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-ubuntu2004.pin && mv cuda-ubuntu2004.pin /etc/apt/preferences.d/cuda-repository-pin-600 && apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/7fa2af80.pub && add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/ /"
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt-key del 7fa2af80 && cd /tmp && \
+	wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.0-1_all.deb && \
+	dpkg -i cuda-keyring_1.0-1_all.deb
 RUN apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install cuda
+RUN apt-get -y install cuda
+
+# nv-codec-headers
+RUN cd /tmp && git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git && \
+	cd nv-codec-headers && make install
 
 #
 # Add entry point, we use entrypoint.sh to mapping host user to

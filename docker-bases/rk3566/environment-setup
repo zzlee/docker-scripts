@@ -1,3 +1,5 @@
+# version: 2022-05-03
+
 cat <<'EOF'
  _           _ _     _                 _
 | |__  _   _(_) | __| |_ __ ___   ___ | |_
@@ -23,6 +25,27 @@ elif [ x"$ZSH_VERSION" != x"" ] ; then
 else
 	echo "unsupported shell"
 fi
+
+# bear, add platform
+if [ -d ${SDK_PATH} ] && [ -d ${PWD}/aarch64-buildroot-linux-gnu ]; then
+	echo "is inside SDK host"
+else
+	if [ ! -d ${PWD}/buildroot ]; then
+	    echo -e "\n\nERROR!! Please source this file under PROJECT ROOT\n\n"
+	    return
+	fi
+
+	BOARD_CONFIG=${PWD}/device/rockchip/.BoardConfig.mk
+	[ -L "$BOARD_CONFIG" ] && source $BOARD_CONFIG
+	SDK_PATH=${PWD}/buildroot/output/${RK_CFG_BUILDROOT}/host
+
+	if [ ! -d ${SDK_PATH} ]; then
+		echo -e "\n\nERROR!! No such directory : ${SDK_PATH}\n\n"
+	    return
+	fi
+fi
+echo "OK, SDK_PATH is ${SDK_PATH}"
+
 export "RecoveryNoUi=true"
 export "AR=aarch64-buildroot-linux-gnu-ar"
 export "AS=aarch64-buildroot-linux-gnu-as"
@@ -52,9 +75,12 @@ export "LDFLAGS_FOR_BUILD=-L$SDK_PATH/lib -Wl,-rpath,$SDK_PATH/lib"
 export "FCFLAGS_FOR_BUILD="
 export "DEFAULT_ASSEMBLER=aarch64-buildroot-linux-gnu-as"
 export "DEFAULT_LINKER=aarch64-buildroot-linux-gnu-ld"
+
+# bear, add sysroot
 export "CPPFLAGS=-D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 --sysroot=$SDK_PATH/aarch64-buildroot-linux-gnu/sysroot"
 export "CFLAGS=-D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64  -Os  -DUSE_UPDATEENGINE=ON -DSUCCESSFUL_BOOT=ON --sysroot=$SDK_PATH/aarch64-buildroot-linux-gnu/sysroot"
 export "CXXFLAGS=-D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64  -Os  -DUSE_UPDATEENGINE=ON -DSUCCESSFUL_BOOT=ON --sysroot=$SDK_PATH/aarch64-buildroot-linux-gnu/sysroot"
+
 export "LDFLAGS="
 export "FCFLAGS= -Os "
 export "FFLAGS= -Os "
@@ -67,3 +93,8 @@ export "CONFIGURE_FLAGS=--target=aarch64-buildroot-linux-gnu --host=aarch64-buil
 alias configure="./configure ${CONFIGURE_FLAGS}"
 alias cmake="cmake -DCMAKE_TOOLCHAIN_FILE=$SDK_PATH/share/buildroot/toolchainfile.cmake -DCMAKE_INSTALL_PREFIX=/usr"
 export "PATH=$SDK_PATH/bin:$SDK_PATH/sbin:$PATH"
+
+# bear, add for yuan
+export "LD_LIBRARY_PATH=$SDK_PATH/lib:${PWD}/yuan/libs"
+export "PATH=/usr/local/bin:/usr/bin:${PATH}"
+export "SDKTARGETSYSROOT=$SDK_PATH/aarch64-buildroot-linux-gnu/sysroot"
