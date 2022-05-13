@@ -58,7 +58,7 @@
   // folders, in which case they will be scanned non-recursively to
   // find shared libraries. Backslashes must be either escaped by
   // doubling them, or replaced by forward slashes "/".
-  "Plugins" : [ 
+  "Plugins" : [
     "/usr/share/orthanc/plugins", "/usr/local/share/orthanc/plugins"
   ],
 
@@ -160,7 +160,7 @@
      "Mpeg4TransferSyntaxAccepted"        : true,  // New in Orthanc 1.6.0
      "H265TransferSyntaxAccepted"         : true,  // New in Orthanc 1.9.0
   **/
-  
+
   // Whether Orthanc accepts to act as C-STORE SCP for unknown storage
   // SOP classes (aka. "promiscuous mode")
   "UnknownSopClassAccepted" : false,
@@ -219,7 +219,7 @@
   // PEM format. This option is only meaningful if "SslVerifyPeers"
   // is true.
   "SslTrustedClientCertificates" : "trustedClientCertificates.pem",
-  
+
   // Whether or not the password protection is enabled (using HTTP
   // basic access authentication). Starting with Orthanc 1.5.8, if
   // "AuthenticationEnabled" is not explicitly set, authentication is
@@ -266,7 +266,7 @@
   /**
      "DicomTlsTrustedCertificates" : "trusted.crt",
   **/
-  
+
   // Whether Orthanc rejects DICOM TLS connections to/from remote
   // modalities that do not provide a certificate. Setting this option
   // to "true" (resp. "false") corresponds to "--require-peer-cert"
@@ -294,7 +294,7 @@
   // "DicomAlwaysAllowFindWorklist" for worklists.
   "DicomAlwaysAllowFind" : false,
 
-  // Whether the Orthanc SCP allows incoming C-FIND requests for worklists, 
+  // Whether the Orthanc SCP allows incoming C-FIND requests for worklists,
   // even from SCU modalities it does not know about (i.e. that are not
   // listed in the "DicomModalities" option above). Setting this
   // option to "true" implies security risks. (new in Orthanc 1.10.0)
@@ -333,18 +333,22 @@
      * connect to an instance of the "storescp" open-source DICOM
      * store (shipped in the DCMTK distribution), as started by the
      * command line "storescp 2000". The first parameter is the
-     * AET of the remote modality (cannot be longer than 16 
+     * AET of the remote modality (cannot be longer than 16
      * characters), the second one is the remote network address,
      * and the third one is the TCP port number corresponding
      * to the DICOM protocol on the remote modality (usually 104).
      **/
     // "sample" : [ "STORESCP", "127.0.0.1", 2000 ]
 
+    "FINDSCU" : [ "CLIENT_1_SCU", "10.10.42.132", 1112 ],
+
+    "STORESCP" : [ "CLIENT_1_SCP", "10.10.42.132", 104 ]
+
     /**
      * A fourth parameter is available to enable patches for
      * specific PACS manufacturers. The allowed values are currently:
      * - "Generic" (default value),
-     * - "GenericNoWildcardInDates" (to replace "*" by "" in date fields 
+     * - "GenericNoWildcardInDates" (to replace "*" by "" in date fields
      *   in outgoing C-FIND requests originating from Orthanc),
      * - "GenericNoUniversalWildcard" (to replace "*" by "" in all fields
      *   in outgoing C-FIND SCU requests originating from Orthanc),
@@ -376,9 +380,9 @@
      * the global option "EnableTranscoding" is set to "true".
      *
      * By default, all "Allow*" options are true.
-     * "AllowStorageCommitment" is actually an alias for 
+     * "AllowStorageCommitment" is actually an alias for
      * "AllowNAction" & "AllowEventReport".
-     * 
+     *
      * The "UseDicomTls" option specifies whether DICOM TLS should be
      * used when opening a SCU connection from Orthanc to this remote
      * modality. By default, DICOM TLS is not enabled.
@@ -623,7 +627,7 @@
        "Verbose" : true
      }
    **/
-  
+
   // If set to "false", Orthanc will not load its default dictionary
   // of private tags. This might be necessary if you cannot import a
   // DICOM file encoded using the Implicit VR Endian transfer syntax,
@@ -777,11 +781,11 @@
   // Implicit, Little Endian Explicit or Big Endian Explicit (new in
   // Orthanc 1.8.2).
   "IngestTranscodingOfUncompressed" : true,
-  
+
   // Whether ingest transcoding is applied to incoming DICOM instances
   // that have a compressed transfer syntax (new in Orthanc 1.8.2).
   "IngestTranscodingOfCompressed" : true,
-  
+
   // The compression level that is used when transcoding to one of the
   // lossy/JPEG transfer syntaxes (integer between 1 and 100).
   "DicomLossyTranscodingQuality" : 90,
@@ -861,7 +865,7 @@
   "ZipLoaderThreads": 0,
 
   // Extra Main Dicom tags that are stored in DB together with all default
-  // Main Dicom tags that are already stored (TODO: see book new page). 
+  // Main Dicom tags that are already stored (TODO: see book new page).
   // (new in Orthanc 1.11.0)
   // Sequences tags are not supported.
   /**
@@ -894,7 +898,7 @@
     // You might want to store this tag in ExtraMainDicomTags to build
     // the response faster.
     "W001_TagsBeingReadFromStorage": true,
-    
+
     // Retrieving a list of Main dicom tags from a resource that has been
     // saved with another "ExtraMainDicomTags" configuration which means that
     // your response might be incomplete/inconsistent.
