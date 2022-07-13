@@ -1,4 +1,4 @@
-FROM nvcr.io/nvidia/l4t-base:r32.4.4 as builder
+FROM nvcr.io/nvidia/l4t-base:r34.1 as builder
 
 ENV TZ=Asia/Taipei
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
@@ -15,15 +15,11 @@ RUN apt-get install -y libasound-dev libfontconfig-dev libgstreamer1.0-dev \
 	libgstreamer-plugins-bad1.0-dev libgstreamer-plugins-base1.0-dev \
 	libgstreamer-plugins-good1.0-dev libx11-dev libxv-dev libv4l-dev libvdpau-dev
 
-ADD http://qcap-registry:8888/l4t-r32-4-4/jetson-ota-public.asc /etc/apt/trusted.gpg.d/
-RUN chmod go=r /etc/apt/trusted.gpg.d/jetson-ota-public.asc
-ADD http://qcap-registry:8888/l4t-r32-4-4/nvidia-l4t-apt-source.list /etc/apt/sources.list.d/
-RUN chmod go=r /etc/apt/sources.list.d/nvidia-l4t-apt-source.list
-RUN apt-get install -y ca-certificates && apt-get update -y
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y cuda-cudart-dev-10-2 cuda-npp-dev-10-2 \
-	libnvparsers-dev libnvinfer-dev
-
-ADD http://qcap-registry:8888/l4t-r32-4-4/tegra.tar.gz /tmp
+# CUDA
+ADD http://qcap-registry:8888/cuda/cuda_11.4.4_470.82.01_linux_sbsa.run /tmp
+RUN cd /tmp && chmod +x ./cuda_11.4.4_470.82.01_linux_sbsa.run && \
+./cuda_11.4.4_470.82.01_linux_sbsa.run --silent --toolkit
+ADD http://qcap-registry:8888/l4t-r34-1/tegra.tar.gz /tmp
 RUN tar xvf /tmp/tegra.tar.gz -C /
 
 ADD http://qcap-registry:8888/entrypoint.sh /entrypoint.sh
@@ -32,7 +28,7 @@ ENTRYPOINT ["/entrypoint.sh"]
 
 RUN apt-get autoremove -y && apt-get clean
 
-FROM nvcr.io/nvidia/l4t-base:r32.4.4
+FROM nvcr.io/nvidia/l4t-base:r34.1
 
 COPY --from=builder /usr /usr
 COPY --from=builder /etc /etc

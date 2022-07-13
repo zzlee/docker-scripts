@@ -13,7 +13,7 @@ RUN cd /tmp && git -c http.sslVerify=false clone https://github.com/Kitware/CMak
 # 3rdparty libs
 RUN apt-get install -y libasound-dev libfontconfig-dev libgstreamer1.0-dev \
 	libgstreamer-plugins-bad1.0-dev libgstreamer-plugins-base1.0-dev \
-	libgstreamer-plugins-good1.0-dev libx11-dev libxv-dev libv4l-dev
+	libgstreamer-plugins-good1.0-dev libx11-dev libxv-dev libv4l-dev libvdpau-dev
 
 # CUDA
 ADD http://qcap-registry:8888/cuda/cuda_11.1.0_455.23.05_linux_sbsa.run /tmp

@@ -25,7 +25,7 @@ RUN apt-get install -y libasound-dev libfontconfig-dev libgstreamer1.0-dev \
 RUN ldconfig
 RUN apt-get autoremove -y && apt-get clean
 
-FROM ubuntu:20.04 AS builder
+FROM ubuntu:18.04 AS builder
 
 ENV TZ=Asia/Taipei
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
@@ -40,32 +40,45 @@ RUN apt-key add /var/cuda-repo-cross-sbsa-ubuntu1804-11-1-local/7fa2af80.pub
 RUN apt-get update
 RUN apt-get -y install cuda-cross-sbsa
 
-# CMake
-RUN apt-get install -y libssl-dev libncurses-dev
-RUN cd /tmp && git clone https://github.com/Kitware/CMake.git && \
-	cd CMake && git checkout v3.22.3 -b build-branch && \
-	./configure && make && make install
+ADD https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-ubuntu1804.pin /tmp
+RUN mv /tmp/cuda-ubuntu1804.pin /etc/apt/preferences.d/cuda-repository-pin-600
+ADD http://qcap-registry:8888/cuda/cuda-repo-ubuntu1804-11-1-local_11.1.0-455.23.05-1_amd64.deb /tmp
+RUN dpkg -i /tmp/cuda-repo-ubuntu1804-11-1-local_11.1.0-455.23.05-1_amd64.deb
+RUN apt-key add /var/cuda-repo-ubuntu1804-11-1-local/7fa2af80.pub
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get update
+RUN apt-get -y install cuda
 
-COPY --from=builder2 /usr /opt/l4t/sysroot/usr
-COPY --from=builder2 /etc /opt/l4t/sysroot/etc
-COPY --from=builder2 /opt /opt/l4t/sysroot/opt
-COPY --from=builder2 /bin /opt/l4t/sysroot/bin
-COPY --from=builder2 /sbin /opt/l4t/sysroot/sbin
-COPY --from=builder2 /lib /opt/l4t/sysroot/lib
+# # CMake
+# RUN apt-get install -y libssl-dev libncurses-dev
+# RUN cd /tmp && git clone https://github.com/Kitware/CMake.git && \
+# 	cd CMake && git checkout v3.22.3 -b build-branch && \
+# 	./configure && make && make install
 
-ADD https://developer.nvidia.com/embedded/dlc/l4t-gcc-7-3-1-toolchain-64-bit /tmp
-RUN tar xvf /tmp/l4t-gcc-7-3-1-toolchain-64-bit -C tmp && \
-mv /tmp/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu /opt/l4t/
+# COPY --from=builder2 /usr /opt/l4t/sysroot/usr
+# COPY --from=builder2 /etc /opt/l4t/sysroot/etc
+# COPY --from=builder2 /opt /opt/l4t/sysroot/opt
+# COPY --from=builder2 /bin /opt/l4t/sysroot/bin
+# COPY --from=builder2 /sbin /opt/l4t/sysroot/sbin
+# COPY --from=builder2 /lib /opt/l4t/sysroot/lib
 
-FROM ubuntu:20.04
+# ADD https://developer.nvidia.com/embedded/dlc/l4t-gcc-7-3-1-toolchain-64-bit /tmp
+# RUN tar xvf /tmp/l4t-gcc-7-3-1-toolchain-64-bit -C tmp && \
+# mv /tmp/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu /opt/l4t/
 
-COPY --from=builder /usr /usr
-COPY --from=builder /etc /etc
-COPY --from=builder /opt /opt
-COPY --from=builder /bin /bin
-COPY --from=builder /sbin /sbin
-COPY --from=builder /lib /lib
+# RUN ldconfig
+# RUN apt-get autoremove -y && apt-get clean
 
-ADD http://qcap-registry:8888/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+# FROM ubuntu:18.04
+
+# COPY --from=builder /usr /usr
+# COPY --from=builder /etc /etc
+# COPY --from=builder /opt /opt
+# COPY --from=builder /bin /bin
+# COPY --from=builder /sbin /sbin
+# COPY --from=builder /lib /lib
+# COPY --from=builder /lib64 /lib64
+
+# ADD http://qcap-registry:8888/entrypoint.sh /entrypoint.sh
+# RUN chmod +x /entrypoint.sh
+# ENTRYPOINT ["/entrypoint.sh"]

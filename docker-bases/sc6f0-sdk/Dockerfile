@@ -16,7 +16,7 @@ RUN locale-gen zh_TW.UTF-8 && update-locale
 ADD http://qcap-registry:8888/sc6f0/sdk.sh /tmp/
 RUN cd /tmp && chmod +x ./sdk.sh && ./sdk.sh -y -d /opt/sc6f0
 ADD http://qcap-registry:8888/sc6f0/rootfs.tar.gz /tmp/
-RUN tar xvf /tmp/rootfs.tar.gz -C /
+# RUN tar xvf /tmp/rootfs.tar.gz -C /
 
 ADD http://qcap-registry:8888/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
