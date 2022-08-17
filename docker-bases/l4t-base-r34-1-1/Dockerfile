@@ -1,6 +1,7 @@
-FROM nvcr.io/nvidia/l4t-base:r32.5.0 as builder
+FROM nvcr.io/nvidia/l4t-base:r34.1.1 as builder
 
 ENV TZ=Asia/Taipei
+ENV DEBIAN_FRONTEND noninteractive
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt-get update -y
@@ -16,20 +17,19 @@ RUN apt-get install -y libasound-dev libfontconfig-dev libgstreamer1.0-dev \
 	libgstreamer-plugins-good1.0-dev libx11-dev libxv-dev libv4l-dev libvdpau-dev
 
 # CUDA
-ADD http://qcap-registry:8888/cuda/cuda_11.1.0_455.23.05_linux_sbsa.run /tmp
-RUN cd /tmp && chmod +x ./cuda_11.1.0_455.23.05_linux_sbsa.run && \
-./cuda_11.1.0_455.23.05_linux_sbsa.run --silent --toolkit
-ADD http://qcap-registry:8888/l4t-r32-5-0/tegra.tar.gz /tmp
-RUN tar xvf /tmp/tegra.tar.gz -C /
+ADD http://qcap-registry:8888/cuda/cuda_11.4.4_470.82.01_linux_sbsa.run /tmp
+RUN cd /tmp && chmod +x ./cuda_11.4.4_470.82.01_linux_sbsa.run && \
+./cuda_11.4.4_470.82.01_linux_sbsa.run --silent --toolkit
+# ADD http://qcap-registry:8888/l4t-r34-1/tegra.tar.gz /tmp
+# RUN tar xvf /tmp/tegra.tar.gz -C /
 
 ADD http://qcap-registry:8888/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
-RUN ldconfig
 RUN apt-get autoremove -y && apt-get clean
 
-FROM nvcr.io/nvidia/l4t-base:r32.5.0
+FROM nvcr.io/nvidia/l4t-base:r34.1.1
 
 COPY --from=builder /usr /usr
 COPY --from=builder /etc /etc

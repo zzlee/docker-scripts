@@ -1,4 +1,4 @@
-FROM nvcr.io/nvidia/l4t-base:r32.5.0 as builder2
+FROM nvcr.io/nvidia/l4t-base:r32.5.0 as builder
 
 ENV TZ=Asia/Taipei
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
@@ -55,12 +55,12 @@ RUN apt-get -y install cuda
 # 	cd CMake && git checkout v3.22.3 -b build-branch && \
 # 	./configure && make && make install
 
-# COPY --from=builder2 /usr /opt/l4t/sysroot/usr
-# COPY --from=builder2 /etc /opt/l4t/sysroot/etc
-# COPY --from=builder2 /opt /opt/l4t/sysroot/opt
-# COPY --from=builder2 /bin /opt/l4t/sysroot/bin
-# COPY --from=builder2 /sbin /opt/l4t/sysroot/sbin
-# COPY --from=builder2 /lib /opt/l4t/sysroot/lib
+# COPY --from=builder /usr /opt/l4t/sysroot/usr
+# COPY --from=builder /etc /opt/l4t/sysroot/etc
+# COPY --from=builder /opt /opt/l4t/sysroot/opt
+# COPY --from=builder /bin /opt/l4t/sysroot/bin
+# COPY --from=builder /sbin /opt/l4t/sysroot/sbin
+# COPY --from=builder /lib /opt/l4t/sysroot/lib
 
 # ADD https://developer.nvidia.com/embedded/dlc/l4t-gcc-7-3-1-toolchain-64-bit /tmp
 # RUN tar xvf /tmp/l4t-gcc-7-3-1-toolchain-64-bit -C tmp && \
