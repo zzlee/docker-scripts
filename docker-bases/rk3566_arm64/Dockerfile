@@ -4,7 +4,7 @@ ENV TZ=Asia/Taipei
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt-get update -y
-RUN apt-get install -y bash-completion build-essential git vim wget cpio
+RUN apt-get install -y bash-completion build-essential git vim wget cpio libtool automake tcl
 
 # CMake
 RUN apt-get install -y libssl-dev libncurses-dev
@@ -18,8 +18,6 @@ ADD environment-setup /opt/rk3566_host/
 ADD http://qcap-registry:8888/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
-
-RUN apt-get install -y libtool automake
 
 RUN apt-get autoremove -y && apt-get clean
 

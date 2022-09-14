@@ -1,10 +1,11 @@
 FROM nvcr.io/nvidia/l4t-base:r32.4.4 as builder
 
 ENV TZ=Asia/Taipei
+ENV DEBIAN_FRONTEND noninteractive
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt-get update -y
-RUN apt-get install -y bash-completion build-essential git vim wget cpio
+RUN apt-get install -y bash-completion build-essential git vim wget cpio tcl python
 
 # CMake
 RUN apt-get install -y libssl-dev libncurses-dev
@@ -20,7 +21,7 @@ RUN chmod go=r /etc/apt/trusted.gpg.d/jetson-ota-public.asc
 ADD http://qcap-registry:8888/l4t-r32-4-4/nvidia-l4t-apt-source.list /etc/apt/sources.list.d/
 RUN chmod go=r /etc/apt/sources.list.d/nvidia-l4t-apt-source.list
 RUN apt-get install -y ca-certificates && apt-get update -y
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y cuda-cudart-dev-10-2 cuda-npp-dev-10-2 \
+RUN apt-get install -y cuda-cudart-dev-10-2 cuda-npp-dev-10-2 \
 	libnvparsers-dev libnvinfer-dev
 
 ADD http://qcap-registry:8888/l4t-r32-4-4/tegra.tar.gz /tmp

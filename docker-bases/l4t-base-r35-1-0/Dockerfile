@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # RUN apt-key adv --fetch-key https://repo.download.nvidia.com/jetson/jetson-ota-public.asc
-RUN echo "deb https://repo.download.nvidia.com/jetson/t234 r35.1 main" >> /etc/apt/sources.list.d/nvidia-l4t-apt-source.list
+RUN echo "deb https://repo.download.nvidia.com/jetson/t234 r32.5 main" >> /etc/apt/sources.list.d/nvidia-l4t-apt-source.list
 
 RUN apt-get update -y && \
 apt-get install -y build-essential libasound-dev libfontconfig-dev libgstreamer1.0-dev \

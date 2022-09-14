@@ -1,4 +1,4 @@
-FROM qcap-registry:5000/l4t-base:r32.5.0 AS l4t_base
+FROM qcap-registry:5000/l4t-base:r32.4.4 AS l4t_base
 
 FROM ubuntu:20.04 AS builder
 
@@ -52,7 +52,7 @@ tar xvf nasm-2.15.05.tar.gz && cd nasm-2.15.05 && \
 ./autogen.sh && ./configure && make && make install
 
 # Toolchain
-ADD http://qcap-registry:8888/l4t-cross-r32-5-0/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu.tar.xz /tmp/
+ADD http://qcap-registry:8888/l4t-cross-r32-4-4/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu.tar.xz /tmp/
 RUN mkdir /opt/l4t/ -p && \
 tar xvf /tmp/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu.tar.xz -C /opt/l4t/ && \
 mv /opt/l4t/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu /opt/l4t/toolchain
