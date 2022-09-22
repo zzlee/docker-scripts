@@ -1,6 +1,7 @@
 FROM ubuntu:18.04 AS builder
 
 ENV TZ=Asia/Taipei
+ENV DEBIAN_FRONTEND noninteractive
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt-get update -y
@@ -17,7 +18,10 @@ RUN cd /tmp && wget https://www.nasm.us/pub/nasm/releasebuilds/2.15.05/nasm-2.15
 	./autogen.sh && ./configure && make && make install
 
 # 3rdparty libs
-RUN apt-get install -y libasound2-dev libx11-dev libxv-dev libva-dev libvdpau-dev libfontconfig1-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev
+RUN apt-get install -y libasound2-dev libx11-dev libxv-dev libva-dev \
+libvdpau-dev libfontconfig1-dev libgstreamer1.0-dev \
+libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev \
+libi2c-dev
 
 # NASM
 RUN apt-get install -y libtool
@@ -26,16 +30,18 @@ RUN cd /tmp && wget https://www.nasm.us/pub/nasm/releasebuilds/2.15.05/nasm-2.15
 	./autogen.sh && ./configure && make && make install
 
 # IPP
-ADD http://qcap-registry:8888/ipp/my-silent.cfg /tmp
+ADD http://qcap-registry:8888/ipp/my-silent-1.cfg /tmp
+ADD http://qcap-registry:8888/ipp/COM_L_IPP__CJ7V-MJ9WNCJZ.lic /tmp
 ADD http://qcap-registry:8888/ipp/l_ipp_8.1.0.144.tgz /tmp
 RUN tar xvf /tmp/l_ipp_8.1.0.144.tgz -C tmp
-RUN cd /tmp/l_ipp_8.1.0.144 && ./install.sh -s /tmp/my-silent.cfg
+RUN cd /tmp/l_ipp_8.1.0.144 && ./install.sh -s /tmp/my-silent-1.cfg
 
 # CUDA
-ENV DEBIAN_FRONTEND noninteractive
-RUN apt-key del 7fa2af80 && \
-	cd /tmp && wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-keyring_1.0-1_all.deb && \
-	dpkg -i cuda-keyring_1.0-1_all.deb
+ADD http://qcap-registry:8888/cuda/x86_64-cuda-ubuntu1804.pin /tmp
+RUN mv /tmp/x86_64-cuda-ubuntu1804.pin /etc/apt/preferences.d/cuda-repository-pin-600
+ADD http://qcap-registry:8888/cuda/cuda-repo-ubuntu1804-11-6-local_11.6.2-510.47.03-1_amd64.deb /tmp
+RUN dpkg -i /tmp/cuda-repo-ubuntu1804-11-6-local_11.6.2-510.47.03-1_amd64.deb
+RUN apt-key add /var/cuda-repo-ubuntu1804-11-6-local/7fa2af80.pub
 RUN apt-get update
 RUN apt-get -y install cuda
 
@@ -43,7 +49,6 @@ RUN apt-get -y install cuda
 RUN cd /tmp && git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git && \
 	cd nv-codec-headers && make install
 
-#
 # Add entry point, we use entrypoint.sh to mapping host user to
 # container
 ADD http://qcap-registry:8888/entrypoint.sh /entrypoint.sh
