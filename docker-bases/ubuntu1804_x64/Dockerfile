@@ -9,19 +9,21 @@ RUN apt-get install -y bash-completion build-essential git vim wget cpio
 
 # CMake
 RUN apt-get install -y libssl-dev libncurses-dev
-RUN cd /tmp && git clone https://github.com/Kitware/CMake.git && cd CMake && git checkout v3.22.3 -b build-branch && ./configure && make && make install
+RUN cd /tmp && git clone https://github.com/Kitware/CMake.git && \
+	cd CMake && git checkout v3.22.3 -b build-branch && \
+	./configure && make -j $(( $(nproc) + 1 )) && make install
 
 # NASM
 RUN apt-get install -y libtool
 RUN cd /tmp && wget https://www.nasm.us/pub/nasm/releasebuilds/2.15.05/nasm-2.15.05.tar.gz && \
 	tar xvf nasm-2.15.05.tar.gz && cd nasm-2.15.05 && \
-	./autogen.sh && ./configure && make && make install
+	./autogen.sh && ./configure && make -j $(( $(nproc) + 1 )) && make install
 
 # 3rdparty libs
 RUN apt-get install -y libasound2-dev libx11-dev libxv-dev libva-dev \
 libvdpau-dev libfontconfig1-dev libgstreamer1.0-dev \
 libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev \
-libi2c-dev
+libi2c-dev libudev-dev
 
 # NASM
 RUN apt-get install -y libtool
