@@ -12,7 +12,7 @@ function build_one
 	fi
 
 	./configure \
-		--prefix=${SYSROOT}/usr \
+		--prefix=${SYSROOT}/usr/local/qcap \
 		--disable-shared \
 		--enable-static \
 		--with-pic \
@@ -22,11 +22,13 @@ function build_one
 	make install && touch DONE
 }
 
-EXTRA_CFLAGS="-march=armv7-a -mcpu=cortex-a9 -mfloat-abi=softfp -mfpu=neon -mno-unaligned-access -fno-aggressive-loop-optimizations"
-export CFLAGS="--sysroot=$SYSROOT -Ofast -fPIC $EXTRA_CFLAGS -I$SYSROOT/usr/include"
-export CXXFLAGS="--sysroot=$SYSROOT -Ofast -fPIC $EXTRA_CFLAGS -I$SYSROOT/usr/include"
+EXTRA_CFLAGS="-march=armv7-a -mcpu=cortex-a9 -mfloat-abi=softfp -mfpu=neon -mno-unaligned-access -fno-aggressive-loop-optimizations  --sysroot=${SYSROOT} -I${SYSROOT}/usr/include -I${SYSROOT}/usr/local/qcap/include"
+EXTRA_LDFLAGS="-L${SYSROOT}/usr/lib -L${SYSROOT}/usr/local/qcap/lib"
 PREFIX=arm-hisiv500-linux
-export LDFLAGS="-lgcc -lm"
+
+export CFLAGS="-Ofast -fPIC ${EXTRA_CFLAGS}"
+export CXXFLAGS="-Ofast -fPIC ${EXTRA_CFLAGS}"
+export LDFLAGS="${EXTRA_LDFLAGS} -lgcc -lm"
 export AR=${PREFIX}-ar
 export AS=${PREFIX}-gcc
 export CC=${PREFIX}-gcc

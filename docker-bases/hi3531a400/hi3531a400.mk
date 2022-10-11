@@ -11,18 +11,11 @@ install-3rdparty: \
 	build-3rdparty/${PLATFORM}/uuid/DONE \
 	build-3rdparty/${PLATFORM}/ffmpeg/DONE \
 	build-3rdparty/${PLATFORM}/fcgi/DONE \
-	install-3rdparty_prebuilt
+	build-3rdparty/${PLATFORM}/alsa/DONE
 
 .PHONY: clean-3rdparty
 clean-3rdparty:
 	@rm -rf build-3rdparty/${PLATFORM}
-
-#################################################################################
-## prebuilt
-
-.PHONY: install-3rdparty_prebuilt
-install-3rdparty_prebuilt:
-	@cp prebuilt-3rdparty/${PLATFORM} 3rdparty/ -arf
 
 #################################################################################
 ## boost
@@ -41,7 +34,7 @@ build-3rdparty/${PLATFORM}/boost:
 
 build-3rdparty/${PLATFORM}/boost/DONE: build-3rdparty/${PLATFORM}/boost
 	@echo Building boost...
-	${DOCKER_BUILD} ${BUILD_SCRIPT_HOME}/boost/build_${PLATFORM}.sh
+	./build-scripts/boost/build_${PLATFORM}.sh
 
 #################################################################################
 ## fdk-aac
@@ -58,7 +51,7 @@ build-3rdparty/${PLATFORM}/fdk-aac:
 
 build-3rdparty/${PLATFORM}/fdk-aac/DONE: build-3rdparty/${PLATFORM}/fdk-aac
 	@echo Building fdk-aac...
-	${DOCKER_BUILD} ${BUILD_SCRIPT_HOME}/fdk-aac/build_${PLATFORM}.sh
+	./build-scripts/fdk-aac/build_${PLATFORM}.sh
 
 #################################################################################
 ## zlib
@@ -75,7 +68,7 @@ build-3rdparty/${PLATFORM}/zlib:
 
 build-3rdparty/${PLATFORM}/zlib/DONE: build-3rdparty/${PLATFORM}/zlib
 	@echo Building zlib...
-	${DOCKER_BUILD} ${BUILD_SCRIPT_HOME}/zlib/build_${PLATFORM}.sh
+	./build-scripts/zlib/build_${PLATFORM}.sh
 
 #################################################################################
 ## openssl
@@ -92,7 +85,7 @@ build-3rdparty/${PLATFORM}/openssl:
 
 build-3rdparty/${PLATFORM}/openssl/DONE: build-3rdparty/${PLATFORM}/openssl
 	@echo Building openssl...
-	${DOCKER_BUILD} ${BUILD_SCRIPT_HOME}/openssl/build_${PLATFORM}.sh
+	./build-scripts/openssl/build_${PLATFORM}.sh
 
 #################################################################################
 ## freetype
@@ -111,7 +104,7 @@ build-3rdparty/${PLATFORM}/freetype:
 
 build-3rdparty/${PLATFORM}/freetype/DONE: build-3rdparty/${PLATFORM}/freetype
 	@echo Building freetype...
-	${DOCKER_BUILD} ${BUILD_SCRIPT_HOME}/freetype/build_${PLATFORM}.sh
+	./build-scripts/freetype/build_${PLATFORM}.sh
 
 #################################################################################
 ## iconv
@@ -126,7 +119,7 @@ build-3rdparty/${PLATFORM}/iconv:
 
 build-3rdparty/${PLATFORM}/iconv/DONE: build-3rdparty/${PLATFORM}/iconv
 	@echo Building iconv...
-	${DOCKER_BUILD} ${BUILD_SCRIPT_HOME}/iconv/build_${PLATFORM}.sh
+	./build-scripts/iconv/build_${PLATFORM}.sh
 
 #################################################################################
 ## uuid
@@ -143,7 +136,7 @@ build-3rdparty/${PLATFORM}/uuid:
 
 build-3rdparty/${PLATFORM}/uuid/DONE: build-3rdparty/${PLATFORM}/uuid
 	@echo Building uuid...
-	${DOCKER_BUILD} ${BUILD_SCRIPT_HOME}/uuid/build_${PLATFORM}.sh
+	./build-scripts/uuid/build_${PLATFORM}.sh
 
 #################################################################################
 ## ffmpeg
@@ -167,7 +160,7 @@ build-3rdparty/${PLATFORM}/ffmpeg/DONE: \
 	build-3rdparty/${PLATFORM}/iconv/DONE \
 	build-3rdparty/${PLATFORM}/uuid/DONE
 	@echo Building ffmpeg...
-	${DOCKER_BUILD} ${BUILD_SCRIPT_HOME}/ffmpeg/build_${PLATFORM}.sh
+	./build-scripts/ffmpeg/build_${PLATFORM}.sh
 
 #################################################################################
 ## fcgi
@@ -184,4 +177,21 @@ build-3rdparty/${PLATFORM}/fcgi:
 
 build-3rdparty/${PLATFORM}/fcgi/DONE: build-3rdparty/${PLATFORM}/fcgi
 	@echo Building fcgi...
-	${DOCKER_BUILD} ${BUILD_SCRIPT_HOME}/fcgi/build_${PLATFORM}.sh
+	./build-scripts/fcgi/build_${PLATFORM}.sh
+
+#################################################################################
+## alsa
+
+clean-3rdparty_${PLATFORM}_alsa:
+	@rm -rf build-3rdparty/${PLATFORM}/alsa
+
+build-3rdparty/${PLATFORM}/alsa:
+	@mkdir -p build-3rdparty/${PLATFORM}/ && \
+		cd build-3rdparty/${PLATFORM}/ && \
+		git clone https://github.com/alsa-project/alsa-lib.git alsa && \
+		cd alsa && \
+		git checkout v1.2.7 -b build-branch
+
+build-3rdparty/${PLATFORM}/alsa/DONE: build-3rdparty/${PLATFORM}/alsa
+	@echo Building alsa...
+	./build-scripts/alsa/build_${PLATFORM}.sh

@@ -7,11 +7,11 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt-get update -y
 RUN apt-get install -y bash-completion build-essential git vim wget cpio
 
-# CMake
-RUN apt-get install -y libssl-dev libncurses-dev
-RUN cd /tmp && git clone https://github.com/Kitware/CMake.git && \
-	cd CMake && git checkout v3.22.3 -b build-branch && \
-	./configure && make -j $(( $(nproc) + 1 )) && make install
+# # CMake
+# RUN apt-get install -y libssl-dev libncurses-dev
+# RUN cd /tmp && git clone https://github.com/Kitware/CMake.git && \
+# 	cd CMake && git checkout v3.22.3 -b build-branch && \
+# 	./configure && make -j $(( $(nproc) + 1 )) && make install
 
 # NASM
 RUN apt-get install -y libtool
@@ -50,6 +50,24 @@ RUN apt-get -y install cuda
 # nv-codec-headers
 RUN cd /tmp && git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git && \
 	cd nv-codec-headers && make install
+
+# build 3rdparty libs
+ADD ubuntu1804_x64.mk /tmp
+ADD build-scripts/ /tmp/build-scripts/
+# RUN cd /tmp && make -f ubuntu1804_x64.mk
+RUN cd /tmp && make -f ubuntu1804_x64.mk build-3rdparty/ubuntu1804_x64/boost/DONE
+RUN cd /tmp && make -f ubuntu1804_x64.mk build-3rdparty/ubuntu1804_x64/fdk-aac/DONE
+RUN cd /tmp && make -f ubuntu1804_x64.mk build-3rdparty/ubuntu1804_x64/x264/DONE
+RUN cd /tmp && make -f ubuntu1804_x64.mk build-3rdparty/ubuntu1804_x64/zlib/DONE
+RUN cd /tmp && make -f ubuntu1804_x64.mk build-3rdparty/ubuntu1804_x64/openssl/DONE
+RUN cd /tmp && make -f ubuntu1804_x64.mk build-3rdparty/ubuntu1804_x64/freetype/DONE
+RUN cd /tmp && make -f ubuntu1804_x64.mk build-3rdparty/ubuntu1804_x64/iconv/DONE
+RUN cd /tmp && make -f ubuntu1804_x64.mk build-3rdparty/ubuntu1804_x64/uuid/DONE
+RUN cd /tmp && make -f ubuntu1804_x64.mk build-3rdparty/ubuntu1804_x64/sdl/DONE
+RUN cd /tmp && make -f ubuntu1804_x64.mk build-3rdparty/ubuntu1804_x64/ffmpeg-vaapi/DONE
+RUN cd /tmp && make -f ubuntu1804_x64.mk build-3rdparty/ubuntu1804_x64/ffmpeg-cuda/DONE
+RUN cd /tmp && make -f ubuntu1804_x64.mk build-3rdparty/ubuntu1804_x64/fcgi/DONE
+RUN cd /tmp && make -f ubuntu1804_x64.mk build-3rdparty/ubuntu1804_x64/yuv/DONE
 
 # Add entry point, we use entrypoint.sh to mapping host user to
 # container

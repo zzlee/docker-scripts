@@ -1,30 +1,34 @@
 #!/bin/bash
 
-cd /docker/qcap/build-3rdparty/hi3531a400/freetype
+cd ./build-3rdparty/hi3531a400/freetype
+. /etc/profile
 
 SYSROOT=/opt/hisi-linux/x86-arm/arm-hisiv400-linux/target
 
 function build_one
 {
-    ./autogen.sh
+	./autogen.sh
 
-    ./configure \
-        --prefix=/docker/qcap/3rdparty/hi3531a400/ \
-        --disable-shared \
-        --enable-static \
-        --with-pic \
-        --host=arm-linux \
-        --build=arm \
-        --with-zlib=no \
-        --with-png=no \
-        --with-harfbuzz=no && \
-    make && make install && touch DONE
+	./configure \
+		--prefix=${SYSROOT}/usr/local/qcap \
+		--disable-shared \
+		--enable-static \
+		--with-pic \
+		--host=arm-linux \
+		--build=arm \
+		--with-zlib=no \
+		--with-png=no \
+		--with-harfbuzz=no && \
+	make -j $(( $(nproc) + 1 )) && \
+	make install && touch DONE
 }
-EXTRA_CFLAGS="-mcpu=cortex-a9 -mfloat-abi=softfp -mfpu=neon -mno-unaligned-access -fno-aggressive-loop-optimizations"
-export CFLAGS="--sysroot=$SYSROOT -Ofast -fPIC $EXTRA_CFLAGS -I$SYSROOT/usr/include"
-export CXXFLAGS="--sysroot=$SYSROOT -Ofast -fPIC $EXTRA_CFLAGS -I$SYSROOT/usr/include"
+EXTRA_CFLAGS="-mcpu=cortex-a9 -mfloat-abi=softfp -mfpu=neon -mno-unaligned-access -fno-aggressive-loop-optimizations --sysroot=${SYSROOT} -I${SYSROOT}/usr/include -I${SYSROOT}/usr/local/qcap/include"
+EXTRA_LDFLAGS="-L${SYSROOT}/usr/lib -L${SYSROOT}/usr/local/qcap/lib"
 PREFIX=arm-hisiv400-linux
-export LDFLAGS="-lgcc"
+
+export CFLAGS="-Ofast -fPIC ${EXTRA_CFLAGS}"
+export CXXFLAGS="-Ofast -fPIC ${EXTRA_CFLAGS}"
+export LDFLAGS="${EXTRA_LDFLAGS} -lgcc"
 export AR=${PREFIX}-ar
 export AS=${PREFIX}-gcc
 export CC=${PREFIX}-gcc

@@ -171,8 +171,8 @@ clean-3rdparty_${PLATFORM}_fcgi:
 build-3rdparty/${PLATFORM}/fcgi:
 	@mkdir -p build-3rdparty/${PLATFORM}/ && \
 		cd build-3rdparty/${PLATFORM}/ && \
-		git clone https://github.com/FastCGI-Archives/fcgi2.git fcgi && \
-		cd fcgi && \
+		git clone https://github.com/FastCGI-Archives/fcgi2.git && \
+		mv fcgi2 fcgi && cd fcgi && \
 		git checkout 2.4.2 -b build-branch
 
 build-3rdparty/${PLATFORM}/fcgi/DONE: build-3rdparty/${PLATFORM}/fcgi

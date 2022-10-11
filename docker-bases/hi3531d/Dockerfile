@@ -63,29 +63,32 @@ RUN cd /tmp && mkdir /opt/hi3531d-sdk -p && tar xvf Hi3531DV100_SDK_V1.0.4.0.tgz
 RUN cd /opt/hi3531d-sdk/Hi3531DV100_SDK_V1.0.4.0 && /bin/bash -c ". ./sdk.unpack"
 
 # build 3rdparty libs
+RUN apt-get install -y pkg-config
 ADD hi3531d.mk /tmp
 ADD build-scripts/ /tmp/build-scripts/
 RUN cd /tmp && make -f hi3531d.mk
 
-# # Add entry point, we use entrypoint.sh to mapping host user to
-# # container
-# ADD http://qcap-registry:8888/entrypoint.sh /entrypoint.sh
-# RUN chmod +x /entrypoint.sh
-# ENTRYPOINT ["/entrypoint.sh"]
+# Add entry point, we use entrypoint.sh to mapping host user to
+# container
+ADD http://qcap-registry:8888/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 
-# RUN apt-get autoremove -y && apt-get clean
+RUN apt-get autoremove -y && apt-get clean
 
-# FROM ubuntu:16.04
+FROM ubuntu:16.04
 
-# COPY --from=builder /usr /usr
-# COPY --from=builder /etc /etc
-# COPY --from=builder /opt/hisi-linux /opt/hisi-linux
-# COPY --from=builder /opt/hi3531d-sdk/Hi3531DV100_SDK_V1.0.4.0/mpp/ /opt/hi3531d-sdk/Hi3531DV100_SDK_V1.0.4.0/mpp/
-# COPY --from=builder /bin /bin
-# COPY --from=builder /sbin /sbin
-# COPY --from=builder /lib /lib
-# COPY --from=builder /lib64 /lib64
-# COPY --from=builder /lib32 /lib32
-# COPY --from=builder /libx32 /libx32
-# COPY --from=builder /entrypoint.sh /
-# ENTRYPOINT ["/entrypoint.sh"]
+COPY --from=builder /usr /usr
+COPY --from=builder /etc /etc
+COPY --from=builder /opt/hisi-linux /opt/hisi-linux
+COPY --from=builder /opt/hi3531d-sdk/Hi3531DV100_SDK_V1.0.4.0/mpp/ /opt/hi3531d-sdk/Hi3531DV100_SDK_V1.0.4.0/mpp/
+COPY --from=builder /bin /bin
+COPY --from=builder /sbin /sbin
+COPY --from=builder /lib /lib
+COPY --from=builder /lib64 /lib64
+COPY --from=builder /lib32 /lib32
+COPY --from=builder /libx32 /libx32
+COPY --from=builder /entrypoint.sh /
+ENTRYPOINT ["/entrypoint.sh"]
+
+RUN chown 1000:1000 /opt/hi3531d-sdk -R
