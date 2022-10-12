@@ -10,6 +10,7 @@ function build_one
 {
 	echo "using gcc ;" > tools/build/src/user-config.jam
 	./b2 \
+		--prefix=/usr/local/qcap \
 		--with-system \
 		--with-thread \
 		--with-atomic \

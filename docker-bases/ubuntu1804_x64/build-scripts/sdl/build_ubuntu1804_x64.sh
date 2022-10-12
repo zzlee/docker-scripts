@@ -5,6 +5,7 @@ cd ./build-3rdparty/ubuntu1804_x64/sdl
 function build_one
 {
 	./configure \
+		--prefix=/usr/local/qcap \
 		--disable-shared \
 		--enable-static \
 		--with-pic \

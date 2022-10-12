@@ -6,6 +6,7 @@ function build_one
 {
 	aclocal && autoconf && autoheader && libtoolize && automake -a && \
 	./configure \
+		--prefix=/usr/local/qcap \
 		--enable-static \
 		--disable-shared && \
 	make -j $(( $(nproc) + 1 )) && \

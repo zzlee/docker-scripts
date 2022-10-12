@@ -4,7 +4,7 @@ export FF_EXTRA_ENCODER=libx264,h264_nvenc,hevc_nvenc
 export FF_EXTRA_DECODER=libx264,h264_nvenc,hevc_nvenc
 . ./build-scripts/ffmpeg/module_vars.sh
 
-cd ./build-3rdparty/ubuntu1804_x64/ffmpeg-cuda
+cd ./build-3rdparty/ubuntu1604_x64/ffmpeg-cuda
 export PATH=${PATH}:/usr/local/cuda/bin/
 
 function build_one

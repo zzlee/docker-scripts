@@ -5,6 +5,7 @@ cd ./build-3rdparty/ubuntu1804_x64/iconv
 function build_one
 {
 	./configure \
+		--prefix=/usr/local/qcap \
 		--enable-static \
 		--disable-shared && \
 	make -j $(( $(nproc) + 1 )) && \

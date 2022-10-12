@@ -9,7 +9,7 @@ cd ./build-3rdparty/ubuntu1804_x64/ffmpeg-vaapi
 function build_one
 {
 	./configure \
-		--prefix=/usr/local/ffmpeg-vaapi/ \
+		--prefix=/usr/local/qcap/ffmpeg-vaapi/ \
 		--pkg-config=pkg-config \
 		--pkg-config-flags=--static \
 		--disable-shared \
@@ -41,4 +41,5 @@ ADDI_LDFLAGS="-pthread"
 ADDI_LIBS="-lm -ldl"
 HWACCELS="--disable-vdpau --disable-xvmc --disable-v4l2_m2m --disable-nvenc --disable-nvdec --disable-cuda --disable-cuvid --enable-hwaccel=h264_vaapi,mjpeg_vaapi,hevc_vaapi"
 
+export PKG_CONFIG_PATH=/usr/local/qcap/lib/pkgconfig
 build_one

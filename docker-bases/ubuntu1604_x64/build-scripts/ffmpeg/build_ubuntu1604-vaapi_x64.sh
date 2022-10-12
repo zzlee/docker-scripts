@@ -1,16 +1,15 @@
 #!/bin/bash
 
-export FF_EXTRA_ENCODER=libx264,h264_nvenc,hevc_nvenc
-export FF_EXTRA_DECODER=libx264,h264_nvenc,hevc_nvenc
+export FF_EXTRA_ENCODER=libx264,h264_vaapi,hevc_vaapi
+export FF_EXTRA_DECODER=libx264,h264_vaapi,hevc_vaapi
 . ./build-scripts/ffmpeg/module_vars.sh
 
-cd ./build-3rdparty/ubuntu1804_x64/ffmpeg-cuda
-export PATH=${PATH}:/usr/local/cuda/bin/
+cd ./build-3rdparty/ubuntu1604_x64/ffmpeg-vaapi
 
 function build_one
 {
 	./configure \
-		--prefix=/usr/local/qcap/ffmpeg-cuda/ \
+		--prefix=/usr/local/qcap/ffmpeg-vaapi/ \
 		--pkg-config=pkg-config \
 		--pkg-config-flags=--static \
 		--disable-shared \
@@ -37,10 +36,10 @@ function build_one
 }
 
 EXTRA_CFLAGS=""
-ADDI_CFLAGS="-Ofast -fPIC $EXTRA_CFLAGS -I/usr/local/cuda/include -pthread"
-ADDI_LDFLAGS="-L/usr/local/cuda/lib64 -pthread"
+ADDI_CFLAGS="-Ofast -fPIC $EXTRA_CFLAGS -pthread"
+ADDI_LDFLAGS="-pthread"
 ADDI_LIBS="-lm -ldl"
-HWACCELS="--enable-cuda-nvcc --enable-cuvid --enable-nvenc --enable-libnpp"
+HWACCELS="--disable-vdpau --disable-xvmc --disable-v4l2_m2m --disable-nvenc --disable-nvdec --disable-cuda --disable-cuvid --enable-hwaccel=h264_vaapi,mjpeg_vaapi,hevc_vaapi"
 
 export PKG_CONFIG_PATH=/usr/local/qcap/lib/pkgconfig
 build_one

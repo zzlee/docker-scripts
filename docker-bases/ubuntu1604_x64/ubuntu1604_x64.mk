@@ -1,8 +1,4 @@
 PLATFORM:=ubuntu1604_x64
-DOCKER_IMAGE:=yuan88yuan/ubuntu1604_x64:v1
-
-include mkfiles/vars.mk
-include mkfiles/qcap.mk
 
 .PHONY: install-3rdparty
 install-3rdparty: \
@@ -19,18 +15,11 @@ install-3rdparty: \
 	build-3rdparty/${PLATFORM}/ffmpeg-cuda/DONE \
 	build-3rdparty/${PLATFORM}/fcgi/DONE \
 	build-3rdparty/${PLATFORM}/yuv/DONE \
-	install-3rdparty_prebuilt
+	build-3rdparty/${PLATFORM}/onetbb/DONE
 
 .PHONY: clean-3rdparty
 clean-3rdparty:
 	@rm -rf build-3rdparty/${PLATFORM}
-
-#################################################################################
-## prebuilt
-
-.PHONY: install-3rdparty_prebuilt
-install-3rdparty_prebuilt:
-	@cp prebuilt-3rdparty/${PLATFORM} 3rdparty/ -arf
 
 #################################################################################
 ## boost
@@ -272,3 +261,20 @@ build-3rdparty/${PLATFORM}/yuv:
 build-3rdparty/${PLATFORM}/yuv/DONE: build-3rdparty/${PLATFORM}/yuv
 	@echo Building yuv...
 	${DOCKER_BUILD} ${BUILD_SCRIPT_HOME}/yuv/build_${PLATFORM}.sh
+
+#################################################################################
+## onetbb
+
+clean-3rdparty_onetbb:
+	@rm -rf build-3rdparty/${PLATFORM}/onetbb
+
+build-3rdparty/${PLATFORM}/onetbb:
+	@mkdir -p build-3rdparty/${PLATFORM}/ && \
+		cd build-3rdparty/${PLATFORM}/ && \
+		git clone https://github.com/oneapi-src/oneTBB.git onetbb && \
+		cd onetbb && \
+		git checkout v2021.7.0 -b build-branch
+
+build-3rdparty/${PLATFORM}/onetbb/DONE: build-3rdparty/${PLATFORM}/onetbb
+	@echo Building onetbb...
+	./build-scripts/onetbb/build_${PLATFORM}.sh

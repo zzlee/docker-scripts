@@ -2,7 +2,7 @@
 
 cd ./build-3rdparty/ubuntu1804_x64/yuv
 
-PREFIX=/usr
+PREFIX=/usr/local/qcap
 
 function build_one
 {

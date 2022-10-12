@@ -7,6 +7,7 @@ function build_one
 	./autogen.sh
 
 	./configure \
+		--prefix=/usr/local/qcap \
 		--disable-shared \
 		--enable-static \
 		--with-pic \

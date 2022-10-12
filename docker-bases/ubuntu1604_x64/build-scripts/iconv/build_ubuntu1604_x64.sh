@@ -1,14 +1,15 @@
 #!/bin/bash
 
-cd /docker/qcap/build-3rdparty/ubuntu1604_x64/iconv
+cd ./build-3rdparty/ubuntu1604_x64/iconv
 
 function build_one
 {
-    ./configure \
-        --prefix=/docker/qcap/3rdparty/ubuntu1604_x64/ \
-        --enable-static \
-        --disable-shared && \
-    make && make install && touch DONE
+	./configure \
+		--prefix=/usr/local/qcap \
+		--enable-static \
+		--disable-shared && \
+	make -j $(( $(nproc) + 1 )) && \
+	make install && touch DONE
 }
 
 export CFLAGS="-O3 -fPIC"

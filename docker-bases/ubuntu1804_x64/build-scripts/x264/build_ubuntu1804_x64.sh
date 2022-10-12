@@ -5,6 +5,7 @@ cd ./build-3rdparty/ubuntu1804_x64/x264
 function build_one
 {
 	./configure \
+		--prefix=/usr/local/qcap \
 		--enable-static \
 		--enable-pic && \
 	make -j $(( $(nproc) + 1 )) && \

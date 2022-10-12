@@ -4,17 +4,19 @@ ENV TZ=Asia/Taipei
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt-get update -y
-RUN apt-get install -y bash-completion build-essential git vim wget cpio
+RUN apt-get install -y bash-completion build-essential git vim wget cpio m4 automake
 
 # CMake
 RUN apt-get install -y libssl-dev libncurses-dev
-RUN cd /tmp && git clone https://github.com/Kitware/CMake.git && cd CMake && git checkout v3.22.3 -b build-branch && ./configure && make && make install
+RUN cd /tmp && git clone https://github.com/Kitware/CMake.git && \
+cd CMake && git checkout v3.22.3 -b build-branch && ./configure && \
+make -j $(( $(nproc) + 1 )) && make install
 
 # NASM
 RUN apt-get install -y libtool
 RUN cd /tmp && wget https://www.nasm.us/pub/nasm/releasebuilds/2.15.05/nasm-2.15.05.tar.gz && \
 	tar xvf nasm-2.15.05.tar.gz && cd nasm-2.15.05 && \
-	./autogen.sh && ./configure && make && make install
+	./autogen.sh && ./configure && make -j $(( $(nproc) + 1 )) && make install
 
 # 3rdparty libs
 RUN apt-get install -y libasound2-dev libx11-dev libxv-dev libva-dev libvdpau-dev libfontconfig1-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev
@@ -38,9 +40,11 @@ RUN apt-get -y install cuda
 RUN cd /tmp && git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git && \
 	cd nv-codec-headers && make install
 
-RUN apt-get -y install m4 automake
+# build 3rdparty libs
+ADD ubuntu1604_x64.mk /tmp
+ADD build-scripts/ /tmp/build-scripts/
+RUN cd /tmp && make -f ubuntu1604_x64.mk
 
-#
 # Add entry point, we use entrypoint.sh to mapping host user to
 # container
 ADD http://qcap-registry:8888/entrypoint.sh /entrypoint.sh
