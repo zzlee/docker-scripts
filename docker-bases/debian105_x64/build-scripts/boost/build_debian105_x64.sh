@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /docker/build-3rdparty/debian105_x64/boost
+cd ./build-3rdparty/debian105_x64/boost
 
 if [ ! -f ./b2 ]; then
 	./bootstrap.sh
@@ -18,7 +18,8 @@ function build_one
 		--with-filesystem \
 		--with-program_options \
 		--with-coroutine \
-		--prefix=/docker/3rdparty/debian105_x64/ \
+		--prefix=/usr/local/qcap \
+		-j $(( $(nproc) + 1 )) \
 		variant=release \
 		link=static \
 		cxxflags="-fPIC $EXTRA_CFLAGS" \

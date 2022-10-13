@@ -1,20 +1,21 @@
 #!/bin/bash
 
-cd /docker/qcap/build-3rdparty/debian105_x64/freetype
+cd ./build-3rdparty/debian105_x64/freetype
 
 function build_one
 {
-    ./autogen.sh
+	./autogen.sh
 
-    ./configure \
-        --prefix=/docker/qcap/3rdparty/debian105_x64/ \
-        --disable-shared \
-        --enable-static \
-        --with-pic \
-        --with-zlib=no \
-        --with-png=no \
-        --with-harfbuzz=no && \
-    make && make install && touch DONE
+	./configure \
+		--prefix=/usr/local/qcap \
+		--disable-shared \
+		--enable-static \
+		--with-pic \
+		--with-zlib=no \
+		--with-png=no \
+		--with-harfbuzz=no && \
+	make -j $(( $(nproc) + 1 )) && \
+	make install && touch DONE
 }
 
 build_one

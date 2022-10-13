@@ -1,9 +1,4 @@
 PLATFORM:=debian105_x64
-DOCKER_IMAGE:=yuan88yuan/debian105_x64:v1
-
-include mkfiles/vars.mk
-include mkfiles/qcap.mk
-
 .PHONY: install-3rdparty
 install-3rdparty: \
 	build-3rdparty/${PLATFORM}/boost/DONE \
@@ -19,18 +14,11 @@ install-3rdparty: \
 	build-3rdparty/${PLATFORM}/ffmpeg-cuda/DONE \
 	build-3rdparty/${PLATFORM}/fcgi/DONE \
 	build-3rdparty/${PLATFORM}/yuv/DONE \
-	install-3rdparty_prebuilt
+	build-3rdparty/${PLATFORM}/onettb/DONE
 
 .PHONY: clean-3rdparty
 clean-3rdparty:
 	@rm -rf build-3rdparty/${PLATFORM}
-
-#################################################################################
-## prebuilt
-
-.PHONY: install-3rdparty_prebuilt
-install-3rdparty_prebuilt:
-	@cp prebuilt-3rdparty/${PLATFORM} 3rdparty/ -arf
 
 #################################################################################
 ## boost
@@ -49,7 +37,7 @@ build-3rdparty/${PLATFORM}/boost:
 
 build-3rdparty/${PLATFORM}/boost/DONE: build-3rdparty/${PLATFORM}/boost
 	@echo Building boost...
-	${DOCKER_BUILD} ${BUILD_SCRIPT_HOME}/boost/build_${PLATFORM}.sh
+	./build-scripts/boost/build_${PLATFORM}.sh
 
 #################################################################################
 ## fdk-aac
@@ -66,7 +54,7 @@ build-3rdparty/${PLATFORM}/fdk-aac:
 
 build-3rdparty/${PLATFORM}/fdk-aac/DONE: build-3rdparty/${PLATFORM}/fdk-aac
 	@echo Building fdk-aac...
-	${DOCKER_BUILD} ${BUILD_SCRIPT_HOME}/fdk-aac/build_${PLATFORM}.sh
+	./build-scripts/fdk-aac/build_${PLATFORM}.sh
 
 #################################################################################
 ## x264
@@ -83,7 +71,7 @@ build-3rdparty/${PLATFORM}/x264:
 
 build-3rdparty/${PLATFORM}/x264/DONE: build-3rdparty/${PLATFORM}/x264
 	@echo Building x264...
-	${DOCKER_BUILD} ${BUILD_SCRIPT_HOME}/x264/build_${PLATFORM}.sh
+	./build-scripts/x264/build_${PLATFORM}.sh
 
 #################################################################################
 ## zlib
@@ -100,7 +88,7 @@ build-3rdparty/${PLATFORM}/zlib:
 
 build-3rdparty/${PLATFORM}/zlib/DONE: build-3rdparty/${PLATFORM}/zlib
 	@echo Building zlib...
-	${DOCKER_BUILD} ${BUILD_SCRIPT_HOME}/zlib/build_${PLATFORM}.sh
+	./build-scripts/zlib/build_${PLATFORM}.sh
 
 #################################################################################
 ## openssl
@@ -117,7 +105,7 @@ build-3rdparty/${PLATFORM}/openssl:
 
 build-3rdparty/${PLATFORM}/openssl/DONE: build-3rdparty/${PLATFORM}/openssl
 	@echo Building openssl...
-	${DOCKER_BUILD} ${BUILD_SCRIPT_HOME}/openssl/build_${PLATFORM}.sh
+	./build-scripts/openssl/build_${PLATFORM}.sh
 
 #################################################################################
 ## freetype
@@ -136,7 +124,7 @@ build-3rdparty/${PLATFORM}/freetype:
 
 build-3rdparty/${PLATFORM}/freetype/DONE: build-3rdparty/${PLATFORM}/freetype
 	@echo Building freetype...
-	${DOCKER_BUILD} ${BUILD_SCRIPT_HOME}/freetype/build_${PLATFORM}.sh
+	./build-scripts/freetype/build_${PLATFORM}.sh
 
 #################################################################################
 ## iconv
@@ -151,7 +139,7 @@ build-3rdparty/${PLATFORM}/iconv:
 
 build-3rdparty/${PLATFORM}/iconv/DONE: build-3rdparty/${PLATFORM}/iconv
 	@echo Building iconv...
-	${DOCKER_BUILD} ${BUILD_SCRIPT_HOME}/iconv/build_${PLATFORM}.sh
+	./build-scripts/iconv/build_${PLATFORM}.sh
 
 #################################################################################
 ## uuid
@@ -168,7 +156,7 @@ build-3rdparty/${PLATFORM}/uuid:
 
 build-3rdparty/${PLATFORM}/uuid/DONE: build-3rdparty/${PLATFORM}/uuid
 	@echo Building uuid...
-	${DOCKER_BUILD} ${BUILD_SCRIPT_HOME}/uuid/build_${PLATFORM}.sh
+	./build-scripts/uuid/build_${PLATFORM}.sh
 
 #################################################################################
 ## sdl
@@ -185,7 +173,7 @@ build-3rdparty/${PLATFORM}/sdl:
 
 build-3rdparty/${PLATFORM}/sdl/DONE: build-3rdparty/${PLATFORM}/sdl
 	@echo Building sdl...
-	${DOCKER_BUILD} ${BUILD_SCRIPT_HOME}/sdl/build_${PLATFORM}.sh
+	./build-scripts/sdl/build_${PLATFORM}.sh
 
 #################################################################################
 ## ffmpeg-vaapi
@@ -211,7 +199,7 @@ build-3rdparty/${PLATFORM}/ffmpeg-vaapi/DONE: \
 	build-3rdparty/${PLATFORM}/uuid/DONE \
 	build-3rdparty/${PLATFORM}/sdl/DONE
 	@echo Building ffmpeg VAAPI...
-	${DOCKER_BUILD} ${BUILD_SCRIPT_HOME}/ffmpeg/build_debian105-vaapi_x64.sh
+	./build-scripts/ffmpeg/build_debian105-vaapi_x64.sh
 
 #################################################################################
 ## ffmpeg-cuda
@@ -237,7 +225,7 @@ build-3rdparty/${PLATFORM}/ffmpeg-cuda/DONE: \
 	build-3rdparty/${PLATFORM}/uuid/DONE \
 	build-3rdparty/${PLATFORM}/sdl/DONE
 	@echo Building ffmpeg CUDA...
-	${DOCKER_BUILD} ${BUILD_SCRIPT_HOME}/ffmpeg/build_debian105-cuda_x64.sh
+	./build-scripts/ffmpeg/build_debian105-cuda_x64.sh
 
 #################################################################################
 ## fcgi
@@ -254,7 +242,7 @@ build-3rdparty/${PLATFORM}/fcgi:
 
 build-3rdparty/${PLATFORM}/fcgi/DONE: build-3rdparty/${PLATFORM}/fcgi
 	@echo Building fcgi...
-	${DOCKER_BUILD} ${BUILD_SCRIPT_HOME}/fcgi/build_${PLATFORM}.sh
+	./build-scripts/fcgi/build_${PLATFORM}.sh
 
 #################################################################################
 ## yuv
@@ -271,4 +259,21 @@ build-3rdparty/${PLATFORM}/yuv:
 
 build-3rdparty/${PLATFORM}/yuv/DONE: build-3rdparty/${PLATFORM}/yuv
 	@echo Building yuv...
-	${DOCKER_BUILD} ${BUILD_SCRIPT_HOME}/yuv/build_${PLATFORM}.sh
+	./build-scripts/yuv/build_${PLATFORM}.sh
+
+#################################################################################
+## onetbb
+
+clean-3rdparty_onetbb:
+	@rm -rf build-3rdparty/${PLATFORM}/onetbb
+
+build-3rdparty/${PLATFORM}/onetbb:
+	@mkdir -p build-3rdparty/${PLATFORM}/ && \
+		cd build-3rdparty/${PLATFORM}/ && \
+		git clone https://github.com/oneapi-src/oneTBB.git onetbb && \
+		cd onetbb && \
+		git checkout v2021.7.0 -b build-branch
+
+build-3rdparty/${PLATFORM}/onetbb/DONE: build-3rdparty/${PLATFORM}/onetbb
+	@echo Building onetbb...
+	./build-scripts/onetbb/build_${PLATFORM}.sh

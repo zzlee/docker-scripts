@@ -1,14 +1,15 @@
 #!/bin/bash
 
-cd /docker/qcap/build-3rdparty/debian105_x64/openssl
+cd ./build-3rdparty/debian105_x64/openssl
 
 function build_one
 {
-    ./Configure linux-x86_64 \
-        --prefix=/docker/qcap/3rdparty/debian105_x64/ \
-        no-shared \
-        no-async && \
-    make && make install && touch DONE
+	./Configure linux-x86_64 \
+		--prefix=/usr/local/qcap \
+		no-shared \
+		no-async && \
+	make -j $(( $(nproc) + 1 )) && \
+	make install && touch DONE
 }
 
 export CFLAGS="-O3 -fPIC"

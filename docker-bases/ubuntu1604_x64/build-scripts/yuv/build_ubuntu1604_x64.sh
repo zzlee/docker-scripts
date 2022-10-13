@@ -6,7 +6,7 @@ PREFIX=/usr/local/qcap
 
 function build_one
 {
-	make -f ./linux.mk && -j $(( $(nproc) + 1 )) && \
+	make -f ./linux.mk -j $(( $(nproc) + 1 )) && \
 	cp libyuv.a ${PREFIX}/lib -a && \
 	cp include/* ${PREFIX}/include -r && \
 	touch DONE

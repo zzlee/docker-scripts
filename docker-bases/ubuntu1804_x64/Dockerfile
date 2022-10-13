@@ -25,12 +25,6 @@ libvdpau-dev libfontconfig1-dev libgstreamer1.0-dev \
 libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev \
 libi2c-dev libudev-dev
 
-# NASM
-RUN apt-get install -y libtool
-RUN cd /tmp && wget https://www.nasm.us/pub/nasm/releasebuilds/2.15.05/nasm-2.15.05.tar.gz && \
-	tar xvf nasm-2.15.05.tar.gz && cd nasm-2.15.05 && \
-	./autogen.sh && ./configure && make && make install
-
 # IPP
 ADD http://qcap-registry:8888/ipp/my-silent-1.cfg /tmp
 ADD http://qcap-registry:8888/ipp/COM_L_IPP__CJ7V-MJ9WNCJZ.lic /tmp

@@ -1,15 +1,15 @@
 #!/bin/bash
 
-cd /docker/qcap/build-3rdparty/debian105_x64/yuv
+cd ./build-3rdparty/debian105_x64/yuv
 
-PREFIX=/docker/qcap/3rdparty/debian105_x64
+PREFIX=/usr/local/qcap
 
 function build_one
 {
-    make -f ./linux.mk && \
-    cp libyuv.a ${PREFIX}/lib -a && \
-    cp include/* ${PREFIX}/include -r && \
-    touch DONE
+	make -f ./linux.mk -j $(( $(nproc) + 1 )) && \
+	cp libyuv.a ${PREFIX}/lib -a && \
+	cp include/* ${PREFIX}/include -r && \
+	touch DONE
 }
 
 export CFLAGS="-O2 -fomit-frame-pointer -fPIC"

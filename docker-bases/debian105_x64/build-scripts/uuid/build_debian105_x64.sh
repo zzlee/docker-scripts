@@ -1,15 +1,16 @@
 #!/bin/bash
 
-cd /docker/qcap/build-3rdparty/debian105_x64/uuid
+cd ./build-3rdparty/debian105_x64/uuid
 
 function build_one
 {
-    aclocal && autoconf && autoheader && libtoolize && automake -a && \
-    ./configure \
-        --prefix=/docker/qcap/3rdparty/debian105_x64/ \
-        --enable-static \
-        --disable-shared && \
-    make && make install && touch DONE
+	aclocal && autoconf && autoheader && libtoolize && automake -a && \
+	./configure \
+		--prefix=/usr/local/qcap \
+		--enable-static \
+		--disable-shared && \
+	make -j $(( $(nproc) + 1 )) && \
+	make install && touch DONE
 }
 
 export CFLAGS="-O3 -fPIC"
