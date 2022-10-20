@@ -22,6 +22,7 @@ function build_one
 		--with-program_options \
 		--with-coroutine \
 		--prefix=${SYSROOT}/usr/local/qcap \
+		-j $(( $(nproc) + 1 )) \
 		toolset=gcc-hi3531a \
 		variant=release \
 		link=static \

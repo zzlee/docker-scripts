@@ -14,7 +14,7 @@ install-3rdparty: \
 	build-3rdparty/${PLATFORM}/ffmpeg-cuda/DONE \
 	build-3rdparty/${PLATFORM}/fcgi/DONE \
 	build-3rdparty/${PLATFORM}/yuv/DONE \
-	build-3rdparty/${PLATFORM}/onettb/DONE
+	build-3rdparty/${PLATFORM}/onetbb/DONE
 
 .PHONY: clean-3rdparty
 clean-3rdparty:
@@ -186,7 +186,7 @@ build-3rdparty/${PLATFORM}/ffmpeg-vaapi:
 		cd build-3rdparty/${PLATFORM}/ && \
 		git clone https://github.com/FFmpeg/FFmpeg.git ffmpeg-vaapi && \
 		cd ffmpeg-vaapi && \
-		git checkout n4.4 -b build-branch
+		git checkout n5.0 -b build-branch
 
 build-3rdparty/${PLATFORM}/ffmpeg-vaapi/DONE: \
 	build-3rdparty/${PLATFORM}/ffmpeg-vaapi \
@@ -212,7 +212,7 @@ build-3rdparty/${PLATFORM}/ffmpeg-cuda:
 		cd build-3rdparty/${PLATFORM}/ && \
 		git clone https://github.com/FFmpeg/FFmpeg.git ffmpeg-cuda && \
 		cd ffmpeg-cuda && \
-		git checkout n4.4 -b build-branch
+		git checkout n5.0 -b build-branch
 
 build-3rdparty/${PLATFORM}/ffmpeg-cuda/DONE: \
 	build-3rdparty/${PLATFORM}/ffmpeg-cuda \

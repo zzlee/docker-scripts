@@ -1,18 +1,20 @@
 #!/bin/bash
 
-cd /docker/qcap/build-3rdparty/hi3559a210/uuid
+cd ./build-3rdparty/hi3559a210/uuid
+. /etc/profile
 
 SYSROOT=/opt/hisi-linux/x86-arm/aarch64-himix210-linux/target
 
 function build_one
 {
-    aclocal && autoconf && autoheader && libtoolize && automake -a && \
-    ./configure \
-        --prefix=/docker/qcap/3rdparty/hi3559a210/ \
-        --enable-static \
-        --disable-shared \
-        --host=$CROSS && \
-    make && make install && touch DONE
+	aclocal && autoconf && autoheader && libtoolize && automake -a && \
+	./configure \
+		--prefix=${SYSROOT}/usr/local/qcap \
+		--enable-static \
+		--disable-shared \
+		--host=$CROSS && \
+	make -j $(( $(nproc) + 1 )) && \
+	make install && touch DONE
 }
 
 EXTRA_CFLAGS=""

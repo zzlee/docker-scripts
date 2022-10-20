@@ -44,24 +44,24 @@ RUN cd /tmp && git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.gi
 # build 3rdparty libs
 ADD debian105_x64.mk /tmp
 ADD build-scripts/ /tmp/build-scripts/
-# RUN cd /tmp && make -f debian105_x64.mk
+RUN cd /tmp && make -f debian105_x64.mk
 
-# # Add entry point, we use entrypoint.sh to mapping host user to
-# # container
-# ADD http://qcap-registry:8888/entrypoint.sh /entrypoint.sh
-# RUN chmod +x /entrypoint.sh
-# ENTRYPOINT ["/entrypoint.sh"]
+# Add entry point, we use entrypoint.sh to mapping host user to
+# container
+ADD http://qcap-registry:8888/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 
-# RUN apt-get autoremove -y && apt-get clean
+RUN apt-get autoremove -y && apt-get clean
 
-# FROM debian:10.5
+FROM debian:10.5
 
-# COPY --from=builder /usr /usr
-# COPY --from=builder /etc /etc
-# COPY --from=builder /opt /opt
-# COPY --from=builder /bin /bin
-# COPY --from=builder /sbin /sbin
-# COPY --from=builder /lib /lib
-# COPY --from=builder /lib64 /lib64
-# COPY --from=builder /entrypoint.sh /
-# ENTRYPOINT ["/entrypoint.sh"]
+COPY --from=builder /usr /usr
+COPY --from=builder /etc /etc
+COPY --from=builder /opt /opt
+COPY --from=builder /bin /bin
+COPY --from=builder /sbin /sbin
+COPY --from=builder /lib /lib
+COPY --from=builder /lib64 /lib64
+COPY --from=builder /entrypoint.sh /
+ENTRYPOINT ["/entrypoint.sh"]

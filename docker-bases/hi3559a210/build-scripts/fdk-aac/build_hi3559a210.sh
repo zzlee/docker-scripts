@@ -1,23 +1,25 @@
 #!/bin/bash
 
-cd /docker/qcap/build-3rdparty/hi3559a210/fdk-aac
+cd ./build-3rdparty/hi3559a210/fdk-aac
+. /etc/profile
 
 SYSROOT=/opt/hisi-linux/x86-arm/aarch64-himix210-linux/target
 
 function build_one
 {
-    if [ ! -f ./configure ]; then
-        ./autogen.sh
-    fi
+	if [ ! -f ./configure ]; then
+		./autogen.sh
+	fi
 
-    ./configure \
-        --prefix=/docker/qcap/3rdparty/hi3559a210/ \
-        --disable-shared \
-        --enable-static \
-        --with-pic \
-        --host=arm-linux \
-        --build=arm && \
-    make && make install && touch DONE
+	./configure \
+		--prefix=${SYSROOT}/usr/local/qcap \
+		--disable-shared \
+		--enable-static \
+		--with-pic \
+		--host=arm-linux \
+		--build=arm && \
+	make -j $(( $(nproc) + 1 )) && \
+	make install && touch DONE
 }
 
 EXTRA_CFLAGS=""

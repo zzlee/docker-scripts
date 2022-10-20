@@ -1,0 +1,91 @@
+FROM ubuntu:16.04 AS builder
+
+RUN apt-get update -y
+RUN apt-get install -y adduser apt autoconf automake \
+autotools-dev base-files base-passwd bash bash-completion \
+bc binutils bsdutils build-essential bzip2 ca-certificates \
+coreutils cpp cpp-5 curl dash debconf debianutils diffutils \
+dpkg dpkg-dev e2fslibs e2fsprogs fakeroot file findutils gcc-multilib \
+g++ g++-5 gcc gcc-5 gcc-5-base gcc-6-base git git-man gnupg gpgv \
+grep gzip hostname ifupdown init init-system-helpers initscripts \
+insserv iproute2 isc-dhcp-client isc-dhcp-common krb5-locales less \
+lib32gcc1 lib32stdc++6 lib32z1 libacl1 libalgorithm-diff-perl \
+libalgorithm-diff-xs-perl libalgorithm-merge-perl libapparmor1 \
+libapt-pkg5.0 libarchive13 libasan2 libasn1-8-heimdal libatm1 \
+libatomic1 libattr1 libaudit-common libaudit1 libblkid1 libbsd0 \
+libbz2-1.0 libc-bin libc-dev-bin libc6 libc6-dev libc6-i386 libcap2 \
+libcap2-bin libcc1-0 libcilkrts5 libcomerr2 libcryptsetup4 libcurl3 \
+libcurl3-gnutls libdb5.3 libdebconfclient0 libdevmapper1.02.1 \
+libdns-export162 libdpkg-perl libedit2 liberror-perl libexpat1 \
+libfakeroot libfdisk1 libffi6 libfile-fcntllock-perl libgcc-5-dev \
+libgcc1 libgcrypt20 libgdbm3 libgmp10 libgnutls30 libgomp1 \
+libgpg-error0 libgpm2 libgssapi-krb5-2 libgssapi3-heimdal \
+libhcrypto4-heimdal libheimbase1-heimdal libheimntlm0-heimdal \
+libhogweed4 libhx509-5-heimdal libicu55 libidn11 libisc-export160 \
+libisl15 libitm1 libjsoncpp1 libk5crypto3 libkeyutils1 libkmod2 \
+libkrb5-26-heimdal libkrb5-3 libkrb5support0 libldap-2.4-2 \
+liblsan0 libltdl-dev libltdl7 liblz4-1 liblzma5 liblzo2-2 \
+libmagic1 libmnl0 libmount1 libmpc3 libmpdec2 libmpfr4 libmpx0 \
+libncurses5 libncurses5-dev libncursesw5 libnettle6 libp11-kit0 \
+libpam-modules libpam-modules-bin libpam-runtime libpam0g libpcre3 \
+libperl5.22 libpopt0 libprocps4 libpython3.5 libpython3.5-minimal \
+libpython3.5-stdlib libquadmath0 libreadline6 libroken18-heimdal \
+librtmp1 libsasl2-2 libsasl2-modules libsasl2-modules-db libseccomp2 \
+libselinux1 libsemanage-common libsemanage1 libsepol1 libsigsegv2 \
+libsmartcols1 libsqlite3-0 libss2 libssl1.0.0 libstdc++-5-dev libstdc++6 \
+libsystemd0 libtasn1-6 libtinfo-dev libtinfo5 libtool libtsan0 libubsan0 \
+libudev1 libusb-0.1-4 libustr-1.0-1 libuuid1 libwind0-heimdal libx11-6 \
+libx11-data libxau6 libxcb1 libxdmcp6 libxext6 libxml2 libxmuu1 \
+libxtables11 linux-libc-dev login lsb-base m4 make makedev manpages \
+manpages-dev mawk mime-support mount multiarch-support ncurses-base \
+ncurses-bin netbase openssh-client openssl passwd patch perl perl-base \
+perl-modules-5.22 procps readline-common rename rsync sed sensible-utils \
+sgml-base sudo systemd systemd-sysv sysv-rc sysvinit-utils tar \
+u-boot-tools ubuntu-keyring unrar unzip util-linux vim vim-common \
+vim-runtime wget xauth xml-core xz-utils zlib1g cmake
+
+# # CMake 3.22.3
+# RUN apt-get install -y libssl-dev libncurses-dev
+# RUN cd /tmp && git clone https://github.com/Kitware/CMake.git && \
+# 	cd CMake && git checkout v3.22.3 -b build-branch && \
+# 	./configure && make -j $(( $(nproc) + 1 )) && make install
+
+# download files
+ADD http://qcap-registry:8888/hisiv300/arm-hisiv300-linux.tar.bz2 /tmp
+ADD http://qcap-registry:8888/hisiv300/cross.v300.install /tmp
+ADD http://qcap-registry:8888/hisiv300/Hi3531A_SDK_V1.0.2.0.tgz /tmp
+
+# Toolchain
+RUN cd /tmp && chmod +x ./cross.v300.install && ./cross.v300.install
+
+# MPP SDK
+RUN cd /tmp && mkdir /opt/hi3531a-sdk -p && tar xzvf Hi3531A_SDK_V1.0.2.0.tgz -C /opt/hi3531a-sdk/
+RUN cd /opt/hi3531a-sdk/Hi3531A_SDK_V1.0.2.0 && /bin/bash -c ". ./sdk.unpack"
+
+# build 3rdparty libs
+ADD hi3531a.mk /tmp
+ADD build-scripts/ /tmp/build-scripts/
+RUN cd /tmp && make -f hi3531a.mk
+
+# Add entry point, we use entrypoint.sh to mapping host user to
+# container
+ADD http://qcap-registry:8888/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+
+RUN apt-get autoremove -y && apt-get clean
+
+FROM ubuntu:16.04
+
+COPY --from=builder /usr /usr
+COPY --from=builder /etc /etc
+COPY --from=builder /opt/hisi-linux /opt/hisi-linux
+COPY --from=builder /opt/hi3531a-sdk/Hi3531A_SDK_V1.0.2.0/mpp/ /opt/hi3531a-sdk/Hi3531A_SDK_V1.0.2.0/mpp/
+COPY --from=builder /bin /bin
+COPY --from=builder /sbin /sbin
+COPY --from=builder /lib /lib
+COPY --from=builder /lib64 /lib64
+COPY --from=builder /lib32 /lib32
+COPY --from=builder /libx32 /libx32
+COPY --from=builder /entrypoint.sh /
+ENTRYPOINT ["/entrypoint.sh"]

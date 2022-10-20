@@ -1,10 +1,13 @@
 #!/bin/bash
 
-cd /docker/qcap/build-3rdparty/hi3559a/boost
+cd ./build-3rdparty/hi3559a/boost
+. /etc/profile
 
 if [ ! -f ./b2 ]; then
 	./bootstrap.sh
 fi
+
+SYSROOT=/opt/hisi-linux/x86-arm/aarch64-himix100-linux/target
 
 function build_one
 {
@@ -18,7 +21,8 @@ function build_one
 		--with-filesystem \
 		--with-program_options \
 		--with-coroutine \
-		--prefix=/docker/qcap/3rdparty/hi3559a/ \
+		--prefix=${SYSROOT}/usr/local/qcap \
+		-j $(( $(nproc) + 1 )) \
 		toolset=gcc-hi3559a \
 		variant=release \
 		link=static \

@@ -1,15 +1,17 @@
 #!/bin/bash
 
-cd /docker/qcap/build-3rdparty/hi3559a/zlib
+cd ./build-3rdparty/hi3559a/zlib
+. /etc/profile
 
 SYSROOT=/opt/hisi-linux/x86-arm/aarch64-himix100-linux/target
 
 function build_one
 {
-    ./configure \
-        --prefix=/docker/qcap/3rdparty/hi3559a/ \
-        --static && \
-    make && make install && touch DONE
+	./configure \
+		--prefix=${SYSROOT}/usr/local/qcap \
+		--static && \
+	make -j $(( $(nproc) + 1 )) && \
+	make install && touch DONE
 }
 
 EXTRA_CFLAGS=""

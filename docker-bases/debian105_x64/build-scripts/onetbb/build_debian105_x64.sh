@@ -1,8 +1,7 @@
 #!/bin/bash
 
-cd ./build-3rdparty/debian105_x64/onetbb
-
+cd ./build-3rdparty/debian105_x64/onetbb && \
 mkdir build -p && cd build && \
-cmake .. && \
+cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr/local/qcap && \
 make -j $(( $(nproc) + 1 )) && \
-make DESTDIR=/usr/local/qcap install && touch DONE
+make install && touch DONE

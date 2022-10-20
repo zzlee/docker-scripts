@@ -5,13 +5,13 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt-get update -y
-RUN apt-get install -y bash-completion build-essential git vim wget cpio cmake
+RUN apt-get install -y bash-completion build-essential git vim wget cpio
 
-# # CMake
-# RUN apt-get install -y libssl-dev libncurses-dev
-# RUN cd /tmp && git clone https://github.com/Kitware/CMake.git && \
-# 	cd CMake && git checkout v3.22.3 -b build-branch && \
-# 	./configure && make -j $(( $(nproc) + 1 )) && make install
+# CMake
+RUN apt-get install -y libssl-dev libncurses-dev
+RUN cd /tmp && git clone https://github.com/Kitware/CMake.git && \
+	cd CMake && git checkout v3.22.3 -b build-branch && \
+	./configure && make -j $(( $(nproc) + 1 )) && make install
 
 # NASM
 RUN apt-get install -y libtool

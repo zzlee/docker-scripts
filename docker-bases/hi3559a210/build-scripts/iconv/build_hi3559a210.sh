@@ -1,17 +1,19 @@
 #!/bin/bash
 
-cd /docker/qcap/build-3rdparty/hi3559a210/iconv
+cd ./build-3rdparty/hi3559a210/iconv
+. /etc/profile
 
 SYSROOT=/opt/hisi-linux/x86-arm/aarch64-himix210-linux/target
 
 function build_one
 {
-    ./configure \
-        --prefix=/docker/qcap/3rdparty/hi3559a210/ \
-        --enable-static \
-        --disable-shared \
-        --host=$CROSS && \
-    make && make install && touch DONE
+	./configure \
+		--prefix=${SYSROOT}/usr/local/qcap \
+		--enable-static \
+		--disable-shared \
+		--host=$CROSS && \
+	make -j $(( $(nproc) + 1 )) && \
+	make install && touch DONE
 }
 
 EXTRA_CFLAGS=""
