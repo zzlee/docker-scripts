@@ -1,3 +1,4 @@
+SHELL=/bin/bash
 AT?=@
 
 .PHONY: all
@@ -6,7 +7,10 @@ all: build install
 .PHONY: build
 build: build-3rdparty/ffmpeg
 	${AT} cd build-3rdparty/ffmpeg && \
-	. /opt/l4t/env-setup && \
+	export _PWD=`pwd` && \
+	cd /opt/rk3566_host && \
+	. ./environment-setup && \
+	cd $${_PWD} && \
 	export PKG_CONFIG_PATH=$${SDKTARGETSYSROOT}/usr/local/qcap/lib/pkgconfig:$${PKG_CONFIG_PATH} && \
 	export FF_EXTRA_ENCODER=libx264 && \
 	export FF_EXTRA_DECODER=libx264 && \
@@ -48,7 +52,10 @@ build-3rdparty/ffmpeg:
 .PHONY: install
 install:
 	${AT} cd build-3rdparty/ffmpeg && \
-	. /opt/l4t/env-setup && \
+	export _PWD=`pwd` && \
+	cd /opt/rk3566_host && \
+	. ./environment-setup && \
+	cd $${_PWD} && \
 	${MAKE} install
 
 .PHONY: clean
