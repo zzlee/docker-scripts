@@ -1,24 +1,8 @@
 FROM yuan88yuan/rk3566_arm64:v1 AS builder
 
 # build 3rdparty libs
-ADD boost.mk /tmp
-RUN cd /tmp && make -f ./boost.mk
-ADD fdk-aac.mk /tmp
-RUN cd /tmp && make -f ./fdk-aac.mk
-ADD zlib.mk /tmp
-RUN cd /tmp && make -f ./zlib.mk
-ADD openssl.mk /tmp
-RUN cd /tmp && make -f ./openssl.mk
-ADD freetype.mk /tmp
-RUN cd /tmp && make -f ./freetype.mk
-ADD iconv.mk /tmp
-RUN cd /tmp && make -f ./iconv.mk
-ADD uuid.mk /tmp
-RUN cd /tmp && make -f ./uuid.mk
-ADD module_vars.sh /tmp
-ADD ffmpeg.mk /tmp
-RUN cd /tmp && make -f ./ffmpeg.mk
 ADD fcgi.mk /tmp
+RUN cd /tmp && make -f ./fcgi.mk
 
 FROM ubuntu:18.04
 
