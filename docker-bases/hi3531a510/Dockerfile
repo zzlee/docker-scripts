@@ -85,6 +85,8 @@ RUN cd /tmp && make -f ./ffmpeg.mk
 ADD fcgi.mk /tmp
 RUN cd /tmp && make -f ./fcgi.mk
 
+RUN chown 1000:1000 -R /opt/hi3531a-sdk/Hi3531A_SDK_V1.0.6.0/mpp/
+
 # Add entry point, we use entrypoint.sh to mapping host user to
 # container
 ADD http://qcap-registry:8888/entrypoint.sh /entrypoint.sh
