@@ -12,8 +12,8 @@ build: build-3rdparty/openssl
 	. ./environment-setup && \
 	cd $${_PWD} && \
 	unset CROSS_COMPILE && \
-	export CFLAGS="${CFLAGS} -O3 -fPIC" && \
-	export CXXFLAGS="${CXXFLAGS} -O3 -fPIC" && \
+	export CFLAGS="$${CFLAGS} -O3 -fPIC" && \
+	export CXXFLAGS="$${CXXFLAGS} -O3 -fPIC" && \
 	./Configure linux-aarch64 \
 	--prefix=$${SDKTARGETSYSROOT}/usr/local/qcap \
 	no-shared \

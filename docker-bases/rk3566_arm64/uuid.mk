@@ -12,8 +12,8 @@ build: build-3rdparty/uuid
 	cd /opt/rk3566_host && \
 	. ./environment-setup && \
 	cd $${_PWD} && \
-	export CFLAGS="${CFLAGS} -O3 -fPIC" && \
-	export CXXFLAGS="${CXXFLAGS} -O3 -fPIC" && \
+	export CFLAGS="$${CFLAGS} -O3 -fPIC" && \
+	export CXXFLAGS="$${CXXFLAGS} -O3 -fPIC" && \
 	./configure \
 	--prefix=$${SDKTARGETSYSROOT}/usr/local/qcap \
 	--disable-shared \

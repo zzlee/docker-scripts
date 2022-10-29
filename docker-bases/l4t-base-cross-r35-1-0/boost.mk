@@ -18,8 +18,8 @@ define boost_build
 	toolset=gcc-custom \
 	variant=release \
 	link=static \
-	cxxflags="-fPIC" \
-	cflags="-fPIC" \
+	cxxflags="-fPIC $${CXXFLAGS}" \
+	cflags="-fPIC $${CFLAGS}" \
 	architecture=arm \
 	binary-format=elf \
 	abi=aapcs \

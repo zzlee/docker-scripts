@@ -1,13 +1,9 @@
-SHELL=/bin/bash
 AT?=@
 
 define boost_build
 	${AT} cd build-3rdparty/boost && \
-	export _PWD=`pwd` && \
-	cd /opt/rk3566_host && \
-	. ./environment-setup && \
-	cd $${_PWD} && \
-	echo "using gcc : rk3566_arm64 : $${CXX} ;" > tools/build/src/user-config.jam && \
+	. /opt/hisi-linux/env-setup && \
+	echo "using gcc : hi3531a510 : arm-hisiv510-linux-g++ ;" > tools/build/src/user-config.jam && \
 	./b2 \
 	--with-system \
 	--with-thread \
@@ -19,13 +15,13 @@ define boost_build
 	--with-coroutine \
 	--prefix=$${SDKTARGETSYSROOT}/usr/local/qcap \
 	-j $$(( $$(nproc) + 1 )) \
-	toolset=gcc-rk3566_arm64 \
+	toolset=gcc-hi3531a510 \
 	variant=release \
 	link=static \
 	cxxflags="-fPIC $${CXXFLAGS}" \
 	cflags="-fPIC $${CFLAGS}" \
 	architecture=arm \
-	address-model=64 \
+	address-model=32 \
 	binary-format=elf \
 	abi=aapcs
 endef
