@@ -340,9 +340,9 @@
      **/
     // "sample" : [ "STORESCP", "127.0.0.1", 2000 ]
 
-    "FINDSCU" : [ "CLIENT_1_SCU", "10.10.42.132", 1112 ],
+    "FINDSCU" : [ "CLIENT_1_SCU", "10.10.40.97", 1112 ],
 
-    "STORESCP" : [ "CLIENT_1_SCP", "10.10.42.132", 104 ]
+    "STORESCP" : [ "CLIENT_1_SCP", "10.10.40.97", 104 ]
 
     /**
      * A fourth parameter is available to enable patches for
