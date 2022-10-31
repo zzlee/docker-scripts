@@ -1,8 +1,8 @@
 AT?=@
 
 define boost_build
-	${AT} . /opt/l4t/env-setup && \
-	cd build-3rdparty/boost && \
+	${AT} cd build-3rdparty/boost && \
+	. /opt/l4t/env-setup && \
 	echo "using gcc : custom : $${CROSS_COMPILE}g++ ;" > tools/build/src/user-config.jam && \
 	./b2 \
 	--with-system \

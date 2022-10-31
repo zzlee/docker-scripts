@@ -13,7 +13,7 @@ build: build-3rdparty/harfbuzz
 	./configure \
 	--prefix=$${SDKTARGETSYSROOT}/usr/local/qcap \
 	--enable-static \
-	--host=arm-hisiv300-linux \
+	--host=arm-linux \
 	--with-glib=no \
 	--with-icu=no \
 	--with-freetype=yes \

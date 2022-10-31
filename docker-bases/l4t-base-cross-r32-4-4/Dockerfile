@@ -1,4 +1,4 @@
-FROM qcap-registry:5000/l4t-base:r32.4.4 AS l4t_base
+FROM yuan88yuan/l4t-base:r32.4.4 AS l4t_base
 
 FROM ubuntu:20.04 AS builder
 
@@ -30,7 +30,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt-get update -y && \
 apt-get install -y software-properties-common bash-completion \
-build-essential git vim wget cpio tcl python
+build-essential git vim wget cpio tcl python pkg-config
 
 RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-ubuntu2004.pin && \
 mv cuda-ubuntu2004.pin /etc/apt/preferences.d/cuda-repository-pin-600 && \
@@ -58,9 +58,51 @@ tar xvf /tmp/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu.tar.xz -C /opt/l4
 mv /opt/l4t/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu /opt/l4t/toolchain
 
 ADD env-setup /opt/l4t/
-ADD http://qcap-registry:8888/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
 
-RUN ldconfig
-RUN apt-get autoremove -y && apt-get clean
+# build 3rdparty libs
+ADD zznvcodec.mk /tmp
+RUN cd /tmp && make -f zznvcodec.mk
+ADD boost.mk /tmp
+# RUN cd /tmp && make -f boost.mk
+# ADD fdk-aac.mk /tmp
+# RUN cd /tmp && make -f fdk-aac.mk
+# ADD x264.mk /tmp
+# RUN cd /tmp && make -f x264.mk
+# ADD zlib.mk /tmp
+# RUN cd /tmp && make -f zlib.mk
+# ADD openssl.mk /tmp
+# RUN cd /tmp && make -f openssl.mk
+# ADD freetype.mk /tmp
+# RUN cd /tmp && make -f freetype.mk
+# ADD iconv.mk /tmp
+# RUN cd /tmp && make -f iconv.mk
+# ADD uuid.mk /tmp
+# RUN cd /tmp && make -f uuid.mk
+# ADD sdl.mk /tmp
+# RUN cd /tmp && make -f sdl.mk
+# ADD module_vars.sh /tmp
+# ADD ffmpeg.mk /tmp
+# RUN cd /tmp && make -f ffmpeg.mk
+# ADD fcgi.mk /tmp
+# RUN cd /tmp && make -f fcgi.mk
+
+# ADD http://qcap-registry:8888/entrypoint.sh /entrypoint.sh
+# RUN chmod +x /entrypoint.sh
+# ENTRYPOINT ["/entrypoint.sh"]
+
+# RUN ldconfig
+# RUN apt-get autoremove -y && apt-get clean
+
+# FROM ubuntu:20.04
+
+# COPY --from=builder /usr /usr
+# COPY --from=builder /etc /etc
+# COPY --from=builder /opt /opt
+# COPY --from=builder /bin /bin
+# COPY --from=builder /sbin /sbin
+# COPY --from=builder /lib /lib
+# COPY --from=builder /lib64 /lib64
+# COPY --from=builder /lib32 /lib32
+# COPY --from=builder /libx32 /libx32
+# COPY --from=builder /entrypoint.sh /
+# ENTRYPOINT ["/entrypoint.sh"]

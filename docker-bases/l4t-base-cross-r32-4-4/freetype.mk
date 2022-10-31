@@ -7,23 +7,19 @@ all: build install
 build: build-3rdparty/freetype
 	${AT} cd build-3rdparty/freetype && \
 	./autogen.sh && \
-	. /opt/hisi-linux/env-setup && \
-	export CXXFLAGS="$${CXXFLAGS} -fPIC" && \
-	export CFLAGS="$${CFLAGS} -fPIC" && \
+	. /opt/l4t/env-setup && \
+	export CFLAGS="$${CFLAGS} -O3" && \
+	export CXXFLAGS="$${CXXFLAGS} -O3" && \
 	./configure \
 	--prefix=$${SDKTARGETSYSROOT}/usr/local/qcap \
 	--disable-shared \
 	--enable-static \
 	--with-pic \
-	--host=arm-linux \
-	--build=arm \
-	--with-zlib=no \
-	--with-png=no \
-	--with-harfbuzz=no && \
-	make -j $$(( $$(nproc) + 1 ))
+	--host=aarch64-buildroot-linux-gnu && \
+	${MAKE} -j $$(( $$(nproc) + 1 ))
 
 build-3rdparty/freetype:
-	${AT} mkdir -p build-3rdparty/ && \
+	${AT} mkdir -p build-3rdparty && \
 	cd build-3rdparty/ && \
 	git clone https://github.com/freetype/freetype.git && \
 	cd freetype && \
@@ -34,8 +30,8 @@ build-3rdparty/freetype:
 .PHONY: install
 install:
 	${AT} cd build-3rdparty/freetype && \
-	. /opt/hisi-linux/env-setup && \
-	make install
+	. /opt/l4t/env-setup && \
+	${MAKE} install
 
 .PHONY: clean
 clean:

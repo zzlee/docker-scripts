@@ -6,7 +6,6 @@ all: build install
 .PHONY: build
 build: build-3rdparty/harfbuzz/configure
 	${AT} cd build-3rdparty/harfbuzz && \
-	./autogen.sh && \
 	. /opt/hisi-linux/env-setup && \
 	export CXXFLAGS="$${CXXFLAGS} -fPIC" && \
 	export CFLAGS="$${CFLAGS} -fPIC" && \
@@ -30,7 +29,7 @@ build-3rdparty/harfbuzz:
 
 build-3rdparty/harfbuzz/configure: build-3rdparty/harfbuzz
 	${AT} cd build-3rdparty/harfbuzz && \
-	if [ ! -f ./b2 ]; then ./autogen.sh; fi
+	if [ ! -f ./configure ]; then ./autogen.sh; fi
 
 .PHONY: install
 install:

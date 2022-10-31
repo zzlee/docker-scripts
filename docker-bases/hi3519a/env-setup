@@ -1,0 +1,13 @@
+. /etc/profile
+
+export SDKTARGETSYSROOT=/opt/hisi-linux/x86-arm/arm-himix200-linux/target
+export CROSS_COMPILE=arm-himix200-linux-
+export CXX=${CROSS_COMPILE}g++
+export CC=${CROSS_COMPILE}gcc
+export STRIP=${CROSS_COMPILE}strip
+export AR=${CROSS_COMPILE}ar
+export RANLIB=${CROSS_COMPILE}ranlib
+export CXXFLAGS="--sysroot=${SDKTARGETSYSROOT} -fpermissive -Wno-literal-suffix -Wno-write-strings -Wno-int-to-pointer-cast -mcpu=cortex-a53 -mfloat-abi=softfp -mfpu=neon-vfpv4 -std=c++11"
+export CFLAGS="--sysroot=${SDKTARGETSYSROOT} -Wno-write-strings -mcpu=cortex-a53 -mfloat-abi=softfp -mfpu=neon-vfpv4"
+export LDFLAGS="-Wl,-Bsymbolic -mcpu=cortex-a53 -mfloat-abi=softfp -mfpu=neon-vfpv4"
+export MPI_HOME=/opt/hi3519a-sdk/Hi3519AV100_SDK_V2.0.2.0/mpp

@@ -2,8 +2,8 @@ AT?=@
 
 define boost_build
 	${AT} cd build-3rdparty/boost && \
-	. /opt/l4t/env-setup && \
-	echo "using gcc : custom : $${CROSS_COMPILE}g++ ;" > tools/build/src/user-config.jam && \
+	. /opt/hisi-linux/env-setup && \
+	echo "using gcc : custom : arm-himix200-linux-g++ ;" > tools/build/src/user-config.jam && \
 	./b2 \
 	--with-system \
 	--with-thread \
@@ -21,9 +21,9 @@ define boost_build
 	cxxflags="-fPIC $${CXXFLAGS}" \
 	cflags="-fPIC $${CFLAGS}" \
 	architecture=arm \
+	address-model=32 \
 	binary-format=elf \
-	abi=aapcs \
-	address-model=64
+	abi=aapcs
 endef
 
 .PHONY: all

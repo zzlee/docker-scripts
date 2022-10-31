@@ -42,7 +42,7 @@ ncurses-bin netbase openssh-client openssl passwd patch perl perl-base \
 perl-modules-5.22 procps readline-common rename rsync sed sensible-utils \
 sgml-base sudo systemd systemd-sysv sysv-rc sysvinit-utils tar \
 u-boot-tools ubuntu-keyring unrar unzip util-linux vim vim-common \
-vim-runtime wget xauth xml-core xz-utils zlib1g pkg-config
+vim-runtime wget xauth xml-core xz-utils zlib1g autoconf pkg-config tcl
 
 # CMake 3.22.3
 RUN apt-get install -y libssl-dev libncurses-dev
@@ -50,25 +50,40 @@ RUN cd /tmp && git clone https://github.com/Kitware/CMake.git && \
 	cd CMake && git checkout v3.22.3 -b build-branch && \
 	./configure && make -j $(( $(nproc) + 1 )) && make install
 
-# download files
-ADD http://qcap-registry:8888/hisiv300/arm-hisiv300-linux.tar.bz2 /tmp
-ADD http://qcap-registry:8888/hisiv300/cross.v300.install /tmp
-ADD http://qcap-registry:8888/hisiv300/Hi3531A_SDK_V1.0.2.0.tgz /tmp
-
-# Toolchain
-RUN cd /tmp && chmod +x ./cross.v300.install && ./cross.v300.install
+# # Toolchain
+ADD http://qcap-registry:8888/himix200/arm-himix200-linux.tgz /tmp
+RUN cd /tmp && tar xzvf arm-himix200-linux.tgz
+RUN cd /tmp/arm-himix200-linux && ./arm-himix200-linux.install
 
 # MPP SDK
-RUN cd /tmp && mkdir /opt/hi3531a-sdk -p && tar xzvf Hi3531A_SDK_V1.0.2.0.tgz -C /opt/hi3531a-sdk/
-RUN cd /opt/hi3531a-sdk/Hi3531A_SDK_V1.0.2.0 && /bin/bash -c ". ./sdk.unpack"
+ADD http://qcap-registry:8888/himix200/Hi3519AV100_SDK_V2.0.2.0.tgz /tmp
+RUN cd /tmp && mkdir /opt/hi3519a-sdk -p && tar xzvf Hi3519AV100_SDK_V2.0.2.0.tgz -C /opt/hi3519a-sdk/
+RUN cd /opt/hi3519a-sdk/Hi3519AV100_SDK_V2.0.2.0 && /bin/bash -c ". ./sdk.unpack"
 
 # build 3rdparty libs
 ADD env-setup /opt/hisi-linux/
-ADD hi3531a.mk /tmp
-ADD build-scripts/ /tmp/build-scripts/
-RUN cd /tmp && make -f hi3531a.mk
+ADD boost.mk /tmp
+RUN cd /tmp && make -f ./boost.mk
+ADD fdk-aac.mk /tmp
+RUN cd /tmp && make -f ./fdk-aac.mk
+ADD zlib.mk /tmp
+RUN cd /tmp && make -f ./zlib.mk
+ADD openssl.mk /tmp
+RUN cd /tmp && make -f ./openssl.mk
+ADD freetype.mk /tmp
+RUN cd /tmp && make -f ./freetype.mk
 ADD harfbuzz.mk /tmp
-RUN cd /tmp && make -f harfbuzz.mk
+RUN apt-get install -y ragel
+RUN cd /tmp && make -f ./harfbuzz.mk
+ADD iconv.mk /tmp
+RUN cd /tmp && make -f ./iconv.mk
+ADD uuid.mk /tmp
+RUN cd /tmp && make -f ./uuid.mk
+ADD module_vars.sh /tmp
+ADD ffmpeg.mk /tmp
+RUN cd /tmp && make -f ./ffmpeg.mk
+ADD fcgi.mk /tmp
+RUN cd /tmp && make -f ./fcgi.mk
 
 # Add entry point, we use entrypoint.sh to mapping host user to
 # container
@@ -83,7 +98,7 @@ FROM ubuntu:16.04
 COPY --from=builder /usr /usr
 COPY --from=builder /etc /etc
 COPY --from=builder /opt/hisi-linux /opt/hisi-linux
-COPY --from=builder /opt/hi3531a-sdk/Hi3531A_SDK_V1.0.2.0/mpp/ /opt/hi3531a-sdk/Hi3531A_SDK_V1.0.2.0/mpp/
+COPY --from=builder /opt/hi3519a-sdk/Hi3519AV100_SDK_V2.0.2.0/smp/a53_linux/mpp/ /opt/hi3519a-sdk/Hi3519AV100_SDK_V2.0.2.0/smp/a53_linux/mpp/
 COPY --from=builder /bin /bin
 COPY --from=builder /sbin /sbin
 COPY --from=builder /lib /lib

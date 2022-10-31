@@ -6,32 +6,28 @@ all: build install
 .PHONY: build
 build: build-3rdparty/openssl
 	${AT} cd build-3rdparty/openssl && \
-	. /opt/hisi-linux/env-setup && \
+	. /opt/l4t/env-setup && \
 	unset CROSS_COMPILE && \
-	export CXXFLAGS="$${CXXFLAGS} -fPIC" && \
-	export CFLAGS="$${CFLAGS} -fPIC" && \
-	./Configure linux-armv4 \
+	export CFLAGS="$${CFLAGS} -fPIC -O3" && \
+	export CXXFLAGS="$${CXXFLAGS} -fPIC -O3" && \
+    ./Configure linux-aarch64 \
 	--prefix=$${SDKTARGETSYSROOT}/usr/local/qcap \
 	no-shared \
 	no-async && \
-	make -j $$(( $$(nproc) + 1 ))
+	${MAKE} -j $$(( $$(nproc) + 1 ))
 
 build-3rdparty/openssl:
-	${AT} mkdir -p build-3rdparty/ && \
+	${AT} mkdir -p build-3rdparty && \
 	cd build-3rdparty/ && \
 	git clone https://github.com/openssl/openssl.git && \
 	cd openssl && \
 	git checkout OpenSSL_1_1_1 -b build-branch
 
-build-3rdparty/openssl/configure: build-3rdparty/openssl
-	${AT} cd build-3rdparty/openssl && \
-	if [ ! -f ./configure ]; then ./autogen.sh; fi
-
 .PHONY: install
 install:
 	${AT} cd build-3rdparty/openssl && \
-	. /opt/hisi-linux/env-setup && \
-	make install
+	. /opt/l4t/env-setup && \
+	${MAKE} install
 
 .PHONY: clean
 clean:

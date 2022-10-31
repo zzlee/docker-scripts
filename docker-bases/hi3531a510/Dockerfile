@@ -42,7 +42,7 @@ ncurses-bin netbase openssh-client openssl passwd patch perl perl-base \
 perl-modules-5.22 procps readline-common rename rsync sed sensible-utils \
 sgml-base sudo systemd systemd-sysv sysv-rc sysvinit-utils tar \
 u-boot-tools ubuntu-keyring unrar unzip util-linux vim vim-common \
-vim-runtime wget xauth xml-core xz-utils zlib1g
+vim-runtime wget xauth xml-core xz-utils zlib1g pkg-config
 
 # CMake 3.22.3
 RUN apt-get install -y libssl-dev libncurses-dev
@@ -59,6 +59,7 @@ RUN cd /tmp/arm-hisiv510-linux && chmod +x arm-hisiv510-linux.install && ./arm-h
 ADD http://qcap-registry:8888/hisiv510/Hi3531A_SDK_V1.0.6.0.tgz /tmp
 RUN cd /tmp && mkdir /opt/hi3531a-sdk -p && tar xzvf Hi3531A_SDK_V1.0.6.0.tgz -C /opt/hi3531a-sdk/
 RUN cd /opt/hi3531a-sdk/Hi3531A_SDK_V1.0.6.0 && /bin/bash -c ". ./sdk.unpack"
+RUN chown 1000:1000 -R /opt/hi3531a-sdk/Hi3531A_SDK_V1.0.6.0/mpp/
 
 # build 3rdparty libs
 ADD env-setup /opt/hisi-linux/
@@ -72,7 +73,6 @@ ADD openssl.mk /tmp
 RUN cd /tmp && make -f ./openssl.mk
 ADD freetype.mk /tmp
 RUN cd /tmp && make -f ./freetype.mk
-RUN apt-get install -y pkg-config
 ADD harfbuzz.mk /tmp
 RUN cd /tmp && make -f ./harfbuzz.mk
 ADD iconv.mk /tmp
@@ -84,8 +84,6 @@ ADD ffmpeg.mk /tmp
 RUN cd /tmp && make -f ./ffmpeg.mk
 ADD fcgi.mk /tmp
 RUN cd /tmp && make -f ./fcgi.mk
-
-RUN chown 1000:1000 -R /opt/hi3531a-sdk/Hi3531A_SDK_V1.0.6.0/mpp/
 
 # Add entry point, we use entrypoint.sh to mapping host user to
 # container

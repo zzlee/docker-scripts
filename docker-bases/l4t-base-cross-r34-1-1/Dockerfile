@@ -30,7 +30,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt-get update -y && \
 apt-get install -y software-properties-common bash-completion \
-build-essential git vim wget cpio tcl python
+build-essential git vim wget cpio tcl python pkg-config
 
 RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-ubuntu2004.pin && \
 mv cuda-ubuntu2004.pin /etc/apt/preferences.d/cuda-repository-pin-600 && \
@@ -58,9 +58,6 @@ RUN mkdir /opt/l4t/toolchain -p && \
 tar xvf /tmp/aarch64--glibc--stable-final.tar.gz -C /opt/l4t/toolchain
 
 ADD env-setup /opt/l4t/
-ADD http://qcap-registry:8888/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
 
 # build 3rdparty libs
 ADD zznvcodec.mk /tmp
@@ -83,12 +80,15 @@ ADD uuid.mk /tmp
 RUN cd /tmp && make -f uuid.mk
 ADD sdl.mk /tmp
 RUN cd /tmp && make -f sdl.mk
-RUN apt-get install -y pkg-config
 ADD module_vars.sh /tmp
 ADD ffmpeg.mk /tmp
 RUN cd /tmp && make -f ffmpeg.mk
 ADD fcgi.mk /tmp
 RUN cd /tmp && make -f fcgi.mk
+
+ADD http://qcap-registry:8888/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 
 RUN ldconfig
 RUN apt-get autoremove -y && apt-get clean
