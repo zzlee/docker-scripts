@@ -63,46 +63,46 @@ ADD env-setup /opt/l4t/
 ADD zznvcodec.mk /tmp
 RUN cd /tmp && make -f zznvcodec.mk
 ADD boost.mk /tmp
-# RUN cd /tmp && make -f boost.mk
-# ADD fdk-aac.mk /tmp
-# RUN cd /tmp && make -f fdk-aac.mk
-# ADD x264.mk /tmp
-# RUN cd /tmp && make -f x264.mk
-# ADD zlib.mk /tmp
-# RUN cd /tmp && make -f zlib.mk
-# ADD openssl.mk /tmp
-# RUN cd /tmp && make -f openssl.mk
-# ADD freetype.mk /tmp
-# RUN cd /tmp && make -f freetype.mk
-# ADD iconv.mk /tmp
-# RUN cd /tmp && make -f iconv.mk
-# ADD uuid.mk /tmp
-# RUN cd /tmp && make -f uuid.mk
-# ADD sdl.mk /tmp
-# RUN cd /tmp && make -f sdl.mk
-# ADD module_vars.sh /tmp
-# ADD ffmpeg.mk /tmp
-# RUN cd /tmp && make -f ffmpeg.mk
-# ADD fcgi.mk /tmp
-# RUN cd /tmp && make -f fcgi.mk
+RUN cd /tmp && make -f boost.mk
+ADD fdk-aac.mk /tmp
+RUN cd /tmp && make -f fdk-aac.mk
+ADD x264.mk /tmp
+RUN cd /tmp && make -f x264.mk
+ADD zlib.mk /tmp
+RUN cd /tmp && make -f zlib.mk
+ADD openssl.mk /tmp
+RUN cd /tmp && make -f openssl.mk
+ADD freetype.mk /tmp
+RUN cd /tmp && make -f freetype.mk
+ADD iconv.mk /tmp
+RUN cd /tmp && make -f iconv.mk
+ADD uuid.mk /tmp
+RUN cd /tmp && make -f uuid.mk
+ADD sdl.mk /tmp
+RUN cd /tmp && make -f sdl.mk
+ADD module_vars.sh /tmp
+ADD ffmpeg.mk /tmp
+RUN cd /tmp && make -f ffmpeg.mk
+ADD fcgi.mk /tmp
+RUN cd /tmp && make -f fcgi.mk
 
-# ADD http://qcap-registry:8888/entrypoint.sh /entrypoint.sh
-# RUN chmod +x /entrypoint.sh
-# ENTRYPOINT ["/entrypoint.sh"]
+ADD http://qcap-registry:8888/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 
-# RUN ldconfig
-# RUN apt-get autoremove -y && apt-get clean
+RUN ldconfig
+RUN apt-get autoremove -y && apt-get clean
 
-# FROM ubuntu:20.04
+FROM ubuntu:20.04
 
-# COPY --from=builder /usr /usr
-# COPY --from=builder /etc /etc
-# COPY --from=builder /opt /opt
-# COPY --from=builder /bin /bin
-# COPY --from=builder /sbin /sbin
-# COPY --from=builder /lib /lib
-# COPY --from=builder /lib64 /lib64
-# COPY --from=builder /lib32 /lib32
-# COPY --from=builder /libx32 /libx32
-# COPY --from=builder /entrypoint.sh /
-# ENTRYPOINT ["/entrypoint.sh"]
+COPY --from=builder /usr /usr
+COPY --from=builder /etc /etc
+COPY --from=builder /opt /opt
+COPY --from=builder /bin /bin
+COPY --from=builder /sbin /sbin
+COPY --from=builder /lib /lib
+COPY --from=builder /lib64 /lib64
+COPY --from=builder /lib32 /lib32
+COPY --from=builder /libx32 /libx32
+COPY --from=builder /entrypoint.sh /
+ENTRYPOINT ["/entrypoint.sh"]

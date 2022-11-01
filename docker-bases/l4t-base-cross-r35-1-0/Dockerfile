@@ -30,7 +30,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt-get update -y && \
 apt-get install -y software-properties-common bash-completion \
-build-essential git vim wget cpio tcl python
+build-essential git vim wget cpio tcl python pkg-config
 
 RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-ubuntu2004.pin && \
 mv cuda-ubuntu2004.pin /etc/apt/preferences.d/cuda-repository-pin-600 && \

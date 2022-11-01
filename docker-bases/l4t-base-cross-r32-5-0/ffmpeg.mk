@@ -7,17 +7,14 @@ all: build install
 build: build-3rdparty/ffmpeg
 	${AT} cd build-3rdparty/ffmpeg && \
 	. /opt/l4t/env-setup && \
-	export PKG_CONFIG_PATH=$${SDKTARGETSYSROOT}/usr/local/qcap/lib/pkgconfig:$${PKG_CONFIG_PATH} && \
 	export FF_EXTRA_ENCODER=libx264 && \
 	export FF_EXTRA_DECODER=libx264 && \
 	. /tmp/module_vars.sh && \
-	export CFLAGS="$${CFLAGS} -fPIC -O3" && \
-	export CXXFLAGS="$${CXXFLAGS} -fPIC -O3" && \
-	export LDFLAGS="$${LDFLAGS} -pthread -lm -ldl" && \
+	export CFLAGS="$${CFLAGS} -I$${SDKTARGETSYSROOT}/usr/local/qcap/include -fPIC -O3" && \
+	export CXXFLAGS="$${CXXFLAGS} -I$${SDKTARGETSYSROOT}/usr/local/qcap/include -fPIC -O3" && \
+	export LDFLAGS="$${LDFLAGS} -L$${SDKTARGETSYSROOT}/usr/local/qcap/lib -pthread -lm -ldl" && \
 	./configure \
 	--prefix=$${SDKTARGETSYSROOT}/usr/local/qcap \
-	--pkg-config=pkg-config \
-	--pkg-config-flags=--static \
 	--disable-shared \
 	--disable-doc \
 	--enable-static \
