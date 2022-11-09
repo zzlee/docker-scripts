@@ -12,7 +12,7 @@ function build_one
 	touch DONE
 }
 
-export CFLAGS="-O2 -fomit-frame-pointer -fPIC"
-export CXXFLAGS="-O2 -fomit-frame-pointer -fPIC"
+export CFLAGS="-O3 -fomit-frame-pointer -fPIC"
+export CXXFLAGS="-O3 -fomit-frame-pointer -fPIC"
 
 build_one

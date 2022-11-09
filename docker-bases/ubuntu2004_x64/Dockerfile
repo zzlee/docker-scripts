@@ -47,6 +47,12 @@ RUN cd /tmp && git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.gi
 	cd nv-codec-headers && make install
 
 # build 3rdparty libs
+ADD boost.mk /tmp
+RUN cd /tmp && make -f ./boost.mk build-3rdparty/boost/b2
+RUN cd /tmp && make -f ./boost.mk
+ADD dcmtk.mk /tmp
+RUN cd /tmp && make -f ./dcmtk.mk build-3rdparty/dcmtk
+RUN cd /tmp && make -f ./dcmtk.mk
 ADD ubuntu2004_x64.mk /tmp
 ADD build-scripts/ /tmp/build-scripts/
 RUN cd /tmp && make -f ubuntu2004_x64.mk

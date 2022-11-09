@@ -2,7 +2,6 @@ PLATFORM:=ubuntu2004_x64
 
 .PHONY: install-3rdparty
 install-3rdparty: \
-	build-3rdparty/${PLATFORM}/boost/DONE \
 	build-3rdparty/${PLATFORM}/fdk-aac/DONE \
 	build-3rdparty/${PLATFORM}/x264/DONE \
 	build-3rdparty/${PLATFORM}/zlib/DONE \
