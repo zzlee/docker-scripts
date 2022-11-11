@@ -13,6 +13,7 @@ define boost_build
 	--with-filesystem \
 	--with-program_options \
 	--with-coroutine \
+	--with-locale \
 	--prefix=$${SDKTARGETSYSROOT}/usr/local/qcap \
 	-j $$(( $$(nproc) + 1 )) \
 	toolset=gcc-custom \

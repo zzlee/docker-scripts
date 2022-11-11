@@ -1,5 +1,15 @@
 FROM yuan88yuan/l4t-base:r34.1.1 AS l4t_base
 
+RUN apt-get update -y
+RUN apt-get install -y libjpeg-dev
+
+ADD dcmtk.mk /tmp
+RUN cd /tmp && make -f ./dcmtk.mk build-3rdparty/dcmtk
+RUN cd /tmp && make -f ./dcmtk.mk
+
+RUN ldconfig
+RUN apt-get autoremove -y && apt-get clean
+
 FROM ubuntu:20.04 AS builder
 
 # Jetson L4T Root FS
