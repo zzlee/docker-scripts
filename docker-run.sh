@@ -1,9 +1,5 @@
 #!/bin/bash
 
-DOCKER_ARGS=${DOCKER_ARGS}
-IMAGE=$1
-shift
-
 docker run -it \
 	--rm \
 	--workdir /docker \
@@ -17,5 +13,4 @@ docker run -it \
 	--mac-address="02:42:ac:11:00:03" \
 	--volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
 	--device=/dev/dri \
-	--group-add video \
-	${DOCKER_ARGS} ${IMAGE} $@
+	--group-add video $@
