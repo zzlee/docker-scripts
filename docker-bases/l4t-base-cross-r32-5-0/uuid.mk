@@ -11,10 +11,10 @@ build: build-3rdparty/uuid
 	export CFLAGS="$${CFLAGS} -fPIC -O3 -L$${SDKTARGETSYSROOT}/usr/lib/aarch64-linux-gnu" && \
 	export CXXFLAGS="$${CXXFLAGS} -fPIC -O3 -L$${SDKTARGETSYSROOT}/usr/lib/aarch64-linux-gnu" && \
 	./configure \
-	--prefix=${SYSROOT}/usr/local/qcap \
+	--prefix=$${SDKTARGETSYSROOT}/usr/local/qcap \
 	--enable-static \
 	--disable-shared \
-	--host=aarch64-buildroot-linux-gnu && \
+	--host=aarch64-linux-gnu && \
 	${MAKE} -j $$(( $$(nproc) + 1 ))
 
 build-3rdparty/uuid:

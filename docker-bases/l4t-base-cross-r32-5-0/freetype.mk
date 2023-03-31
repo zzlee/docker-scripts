@@ -15,7 +15,7 @@ build: build-3rdparty/freetype
 	--disable-shared \
 	--enable-static \
 	--with-pic \
-	--host=aarch64-buildroot-linux-gnu && \
+	--host=aarch64-linux-gnu && \
 	${MAKE} -j $$(( $$(nproc) + 1 ))
 
 build-3rdparty/freetype:

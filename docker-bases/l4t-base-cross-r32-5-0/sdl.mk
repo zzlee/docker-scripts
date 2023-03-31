@@ -18,7 +18,7 @@ build: build-3rdparty/sdl
 	--disable-video-wayland \
 	--disable-sndio \
 	--disable-sndio-shared \
-	--host=aarch64-buildroot-linux-gnu && \
+	--host=aarch64-linux-gnu && \
 	${MAKE} -j $$(( $$(nproc) + 1 ))
 
 build-3rdparty/sdl:

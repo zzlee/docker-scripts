@@ -23,6 +23,9 @@ RUN cd /opt/l4t/rootfs/usr/lib && \
 ln -sf aarch64-linux-gnu/crt1.o crt1.o && \
 ln -sf aarch64-linux-gnu/crti.o crti.o && \
 ln -sf aarch64-linux-gnu/crtn.o crtn.o
+RUN ln /opt/l4t/rootfs/lib/aarch64-linux-gnu/libdl.so.2 /opt/l4t/rootfs/usr/lib/aarch64-linux-gnu/libdl.so -fs && \
+ln /opt/l4t/rootfs/lib/aarch64-linux-gnu/libdl.so.2 /opt/l4t/rootfs/usr/lib/aarch64-linux-gnu/libdl.so.2 -fs && \
+ln /opt/l4t/rootfs/lib/aarch64-linux-gnu/libbsd.so.0 /opt/l4t/rootfs/usr/lib/aarch64-linux-gnu/libbsd.so.0 -fs
 
 ENV TZ=Asia/Taipei
 ENV DEBIAN_FRONTEND noninteractive
@@ -42,14 +45,15 @@ apt-get -y install cuda-nvcc-11-4
 # CMake
 RUN apt-get install -y libssl-dev libncurses-dev && \
 cd /tmp && git clone https://github.com/Kitware/CMake.git && \
-cd CMake && git checkout v3.22.3 -b build-branch && \
-./configure && make && make install
+cd CMake && git checkout v3.22.3 -b build-branch
+RUN cd /tmp/CMake && ./configure && make -j $(( $(nproc) + 1 )) && make install
 
 # NASM
 RUN apt-get install -y libtool && \
 cd /tmp && wget https://www.nasm.us/pub/nasm/releasebuilds/2.15.05/nasm-2.15.05.tar.gz && \
-tar xvf nasm-2.15.05.tar.gz && cd nasm-2.15.05 && \
-./autogen.sh && ./configure && make && make install
+tar xvf nasm-2.15.05.tar.gz
+RUN cd /tmp/nasm-2.15.05 && ./autogen.sh && ./configure
+RUN cd /tmp/nasm-2.15.05 && make -j $(( $(nproc) + 1 )) && make install
 
 # Toolchain
 ADD http://qcap-registry:8888/l4t-cross-r32-4-4/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu.tar.xz /tmp/
