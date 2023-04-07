@@ -6,7 +6,7 @@ all: build install
 .PHONY: build
 build: build-3rdparty/ffmpeg-vaapi
 	${AT} cd build-3rdparty/ffmpeg-vaapi && \
-	export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/local/qcap/lib/pkgconfig:$${PKG_CONFIG_PATH} && \
+	export PKG_CONFIG_PATH=/usr/local/qcap/lib/pkgconfig:$${PKG_CONFIG_PATH} && \
 	export FF_EXTRA_ENCODER=libx264,h264_vaapi,hevc_vaapi && \
 	export FF_EXTRA_DECODER=libx264,h264_vaapi,hevc_vaapi && \
 	. /tmp/module_vars.sh && \

@@ -47,10 +47,10 @@ ADD boost.mk /tmp
 RUN cd /tmp && make -f ./boost.mk
 ADD fdk-aac.mk /tmp
 RUN cd /tmp && make -f ./fdk-aac.mk
-ADD x264.mk /tmp
-RUN cd /tmp && make -f ./x264.mk
 ADD zlib.mk /tmp
 RUN cd /tmp && make -f ./zlib.mk
+ADD x264.mk /tmp
+RUN cd /tmp && make -f ./x264.mk
 ADD openssl.mk /tmp
 RUN cd /tmp && make -f ./openssl.mk
 ADD freetype.mk /tmp
@@ -61,11 +61,11 @@ ADD uuid.mk /tmp
 RUN cd /tmp && make -f ./uuid.mk
 ADD sdl.mk /tmp
 RUN cd /tmp && make -f ./sdl.mk
-ADD ffmpeg-cuda.mk /tmp
 ADD module_vars.sh /tmp
-RUN cd /tmp && make -f ./ffmpeg-cuda.mk
 ADD ffmpeg-vaapi.mk /tmp
 RUN cd /tmp && make -f ./ffmpeg-vaapi.mk
+ADD ffmpeg-cuda.mk /tmp
+RUN cd /tmp && make -f ./ffmpeg-cuda.mk
 ADD fcgi.mk /tmp
 RUN cd /tmp && make -f ./fcgi.mk
 ADD yuv.mk /tmp
@@ -79,12 +79,10 @@ ENTRYPOINT ["/entrypoint.sh"]
 
 RUN yum autoremove -y && yum clean all -y
 
-FROM centos:centos7.6.1810
+# FROM centos:centos7.6.1810
 
-COPY --from=builder /usr /usr
-COPY --from=builder /etc /etc
-COPY --from=builder /opt /opt
-COPY --from=builder /lib /lib
-COPY --from=builder /lib64 /lib64
-COPY --from=builder /entrypoint.sh /
-ENTRYPOINT ["/entrypoint.sh"]
+# COPY --from=builder /usr /usr
+# COPY --from=builder /etc /etc
+# COPY --from=builder /opt /opt
+# COPY --from=builder /entrypoint.sh /
+# ENTRYPOINT ["/entrypoint.sh"]
