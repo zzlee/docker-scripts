@@ -6,19 +6,17 @@ all: build install
 .PHONY: build
 build: build-3rdparty/sdl
 	${AT} cd build-3rdparty/sdl && \
-	. /opt/l4t/env-setup && \
-	export CFLAGS="$${CFLAGS} -fPIC -O3 -L$${SDKTARGETSYSROOT}/usr/lib/aarch64-linux-gnu" && \
-	export CXXFLAGS="$${CXXFLAGS} -fPIC -O3 -L$${SDKTARGETSYSROOT}/usr/lib/aarch64-linux-gnu" && \
+	export CFLAGS="$${CFLAGS} -fPIC -O3" && \
+	export CXXFLAGS="$${CXXFLAGS} -fPIC -O3" && \
 	./configure \
-	--prefix=$${SDKTARGETSYSROOT}/usr/local/qcap \
+	--prefix=/usr/local/qcap \
 	--disable-shared \
 	--enable-static \
 	--with-pic \
 	--enable-video-x11 \
 	--disable-video-wayland \
 	--disable-sndio \
-	--disable-sndio-shared \
-	--host=aarch64-linux-gnu && \
+	--disable-sndio-shared && \
 	${MAKE} -j $$(( $$(nproc) + 1 ))
 
 build-3rdparty/sdl:
@@ -31,7 +29,6 @@ build-3rdparty/sdl:
 .PHONY: install
 install:
 	${AT} cd build-3rdparty/sdl && \
-	. /opt/l4t/env-setup && \
 	${MAKE} install
 
 .PHONY: clean

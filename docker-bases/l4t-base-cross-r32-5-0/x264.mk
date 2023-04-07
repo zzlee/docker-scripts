@@ -14,7 +14,7 @@ build: build-3rdparty/x264
 	--disable-asm \
 	--enable-static \
 	--enable-pic \
-	--host=aarch64-buildroot-linux-gnu && \
+	--host=aarch64-linux-gnu && \
 	${MAKE} -j $$(( $$(nproc) + 1 ))
 
 build-3rdparty/x264:
