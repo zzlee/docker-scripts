@@ -7,5 +7,7 @@ xhost +
 ./docker-run.sh \
 	--privileged \
 	--mac-address ${MAC_ADDR} \
-	-v /sys/devices/:/sys/devices ${DOCKER_IMAGE} \
+	-v /sys/devices/:/sys/devices \
+	-v /dev/:/dev/ \
+	${DOCKER_IMAGE} \
 	sudo DISPLAY=${DISPLAY} su ${SUDO_USER}
