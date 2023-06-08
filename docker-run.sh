@@ -2,6 +2,7 @@
 
 docker run -it \
 	--rm \
+	--init \
 	--workdir /docker \
 	--volume $(pwd)/..:/docker \
 	--env=HOST_UID=${SUDO_UID} \
