@@ -6,6 +6,7 @@ MAC_ADDR=${MAC_ADDR:-e0:d5:5e:66:22:b7}
 
 xhost +
 ./docker-run.sh \
+	--init \
 	--privileged \
 	--mac-address ${MAC_ADDR} \
 	-v /sys/devices/:/sys/devices \
