@@ -43,7 +43,7 @@ RUN apt-get -y install cuda
 
 # nv-codec-headers
 RUN cd /tmp && git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git && \
-	cd nv-codec-headers && make install
+	cd nv-codec-headers && git checkout n12.0.16.0 -b dev && make install
 
 # build 3rdparty libs
 ADD ubuntu1804_x64.mk /tmp
