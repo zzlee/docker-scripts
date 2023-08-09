@@ -21,8 +21,8 @@ RUN cd /tmp && wget https://www.nasm.us/pub/nasm/releasebuilds/2.15.05/nasm-2.15
 # 3rdparty libs
 RUN apt-get install -y libasound2-dev libx11-dev libxv-dev \
 libva-dev libvdpau-dev libfontconfig1-dev libgstreamer1.0-dev \
-libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev
-RUN apt-get install -y libi2c-dev libudev-dev
+libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev \
+libgl1-mesa-dev libi2c-dev libudev-dev
 
 # IPP
 ADD http://qcap-registry:8888/ipp/my-silent-1.cfg /tmp
