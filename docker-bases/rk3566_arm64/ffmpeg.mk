@@ -12,9 +12,6 @@ build: build-3rdparty/ffmpeg
 	. ./environment-setup && \
 	cd $${_PWD} && \
 	export PKG_CONFIG_PATH=$${SDKTARGETSYSROOT}/usr/local/qcap/lib/pkgconfig:$${PKG_CONFIG_PATH} && \
-	export FF_EXTRA_ENCODER=libx264 && \
-	export FF_EXTRA_DECODER=libx264 && \
-	. /tmp/module_vars.sh && \
 	export CFLAGS="$${CFLAGS} -fPIC -O3" && \
 	export CXXFLAGS="$${CXXFLAGS} -fPIC -O3" && \
 	export LDFLAGS="$${LDFLAGS} -pthread -lm -ldl" && \
@@ -24,11 +21,15 @@ build: build-3rdparty/ffmpeg
 	--pkg-config-flags=--static \
 	--disable-shared \
 	--disable-doc \
+	--disable-alsa \
+	--disable-bzlib \
+	--disable-iconv \
+	--disable-zlib \
+	--disable-v4l2-m2m \
 	--enable-static \
 	--enable-libfdk-aac \
 	--enable-openssl \
 	--enable-libx264 \
-	$${FF_FLAGS} \
 	--cross-prefix=$${CROSS_COMPILE} \
 	--target-os=linux \
 	--arch=aarch64 \
