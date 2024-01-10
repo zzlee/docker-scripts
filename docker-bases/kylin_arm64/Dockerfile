@@ -1,26 +1,26 @@
-FROM kylin:v10-sp1 as builder
+FROM yuan88yuan/kylin-arm64-base:v10-sp1 as builder
 
-ENV TZ=Asia/Taipei
-ENV DEBIAN_FRONTEND noninteractive
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+# ENV TZ=Asia/Taipei
+# ENV DEBIAN_FRONTEND noninteractive
+# RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# RUN apt-get update -y
-RUN apt-get install -y bash-completion build-essential git vim wget cpio
+# # RUN apt-get update -y
+# RUN apt-get install -y bash-completion build-essential git vim wget cpio
 
-# CMake
-RUN apt-get install -y libssl-dev libncurses-dev
-RUN mkdir /tmp -p && cd /tmp && \
-git clone https://github.com/Kitware/CMake.git && cd CMake && \
-git checkout v3.22.3 -b build-branch
-RUN cd /tmp/CMake && ./configure
-RUN cd /tmp/CMake && make -j $(( $(nproc) + 1 )) && make install
+# # CMake
+# RUN apt-get install -y libssl-dev libncurses-dev
+# RUN mkdir /tmp -p && cd /tmp && \
+# git clone https://github.com/Kitware/CMake.git && cd CMake && \
+# git checkout v3.22.3 -b build-branch
+# RUN cd /tmp/CMake && ./configure
+# RUN cd /tmp/CMake && make -j $(( $(nproc) + 1 )) && make install
 
-# NASM
-RUN apt-get install -y libtool
-RUN cd /tmp && wget https://www.nasm.us/pub/nasm/releasebuilds/2.15.05/nasm-2.15.05.tar.gz && \
-tar xvf nasm-2.15.05.tar.gz
-RUN cd /tmp/nasm-2.15.05 ./autogen.sh && ./configure && \
-make -j $(( $(nproc) + 1 )) && make install
+# # NASM
+# RUN apt-get install -y libtool
+# RUN cd /tmp && wget https://www.nasm.us/pub/nasm/releasebuilds/2.15.05/nasm-2.15.05.tar.gz && \
+# tar xvf nasm-2.15.05.tar.gz
+# RUN cd /tmp/nasm-2.15.05 ./autogen.sh && ./configure && \
+# make -j $(( $(nproc) + 1 )) && make install
 
 # 3rdparty libs
 RUN apt-get install -y libasound2-dev libx11-dev \
@@ -62,7 +62,7 @@ ENTRYPOINT ["/entrypoint.sh"]
 RUN apt-get autoremove -y && apt-get clean
 
 # Remove user kylin
-RUN deluser kylin && sed -i /kylin/d /etc/uid_list
+RUN deluser kylin && sed -i '$d' /etc/uid_list
 
 # FROM kylin:v10-sp1
 

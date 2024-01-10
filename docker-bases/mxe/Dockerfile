@@ -36,7 +36,8 @@ RUN	apt-get -y update && apt-get -y install	\
 	g++-multilib \
 	libc6-dev-i386 \
 	libtool-bin \
-	lzip
+	lzip \
+	llvm
 
 RUN groupadd -r mxe && useradd -r -g mxe mxe && mkdir /opt/mxe && chown mxe:mxe /opt/mxe
 USER mxe
