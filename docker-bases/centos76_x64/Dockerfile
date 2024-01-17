@@ -24,7 +24,9 @@ RUN cd /tmp/nasm-2.15.05 && ./autogen.sh && ./configure
 RUN cd /tmp/nasm-2.15.05 && make -j $(( $(nproc) + 1 )) && make install
 
 # 3rdparty libs
-RUN yum install -y alsa-lib-devel libX11-devel libXv-devel libva-devel libvdpau fontconfig-devel gstreamer1-devel gstreamer1-plugins-base-devel
+RUN yum install -y alsa-lib-devel libX11-devel libXv-devel \
+libva-devel libvdpau fontconfig-devel gstreamer1-devel \
+gstreamer1-plugins-base-devel mesa-libGL-devel
 
 # IPP
 ADD http://qcap-registry:8888/ipp/my-silent-1.cfg /tmp
@@ -43,33 +45,33 @@ RUN /tmp/cuda_11.6.2_510.47.03_linux.run --silent --toolkit
 RUN cd /tmp && git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git
 RUN	cd /tmp/nv-codec-headers && make install
 
-ADD boost.mk /tmp
-RUN cd /tmp && make -f ./boost.mk
-ADD fdk-aac.mk /tmp
-RUN cd /tmp && make -f ./fdk-aac.mk
-ADD zlib.mk /tmp
-RUN cd /tmp && make -f ./zlib.mk
-ADD x264.mk /tmp
-RUN cd /tmp && make -f ./x264.mk
-ADD openssl.mk /tmp
-RUN cd /tmp && make -f ./openssl.mk
-ADD freetype.mk /tmp
-RUN cd /tmp && make -f ./freetype.mk
-ADD iconv.mk /tmp
-RUN cd /tmp && make -f ./iconv.mk
-ADD uuid.mk /tmp
-RUN cd /tmp && make -f ./uuid.mk
-ADD sdl.mk /tmp
-RUN cd /tmp && make -f ./sdl.mk
-ADD module_vars.sh /tmp
-ADD ffmpeg-vaapi.mk /tmp
-RUN cd /tmp && make -f ./ffmpeg-vaapi.mk
-ADD ffmpeg-cuda.mk /tmp
-RUN cd /tmp && make -f ./ffmpeg-cuda.mk
-ADD fcgi.mk /tmp
-RUN cd /tmp && make -f ./fcgi.mk
-ADD yuv.mk /tmp
-RUN cd /tmp && make -f ./yuv.mk
+# ADD boost.mk /tmp
+# RUN cd /tmp && make -f ./boost.mk
+# ADD fdk-aac.mk /tmp
+# RUN cd /tmp && make -f ./fdk-aac.mk
+# ADD zlib.mk /tmp
+# RUN cd /tmp && make -f ./zlib.mk
+# ADD x264.mk /tmp
+# RUN cd /tmp && make -f ./x264.mk
+# ADD openssl.mk /tmp
+# RUN cd /tmp && make -f ./openssl.mk
+# ADD freetype.mk /tmp
+# RUN cd /tmp && make -f ./freetype.mk
+# ADD iconv.mk /tmp
+# RUN cd /tmp && make -f ./iconv.mk
+# ADD uuid.mk /tmp
+# RUN cd /tmp && make -f ./uuid.mk
+# ADD sdl.mk /tmp
+# RUN cd /tmp && make -f ./sdl.mk
+# ADD module_vars.sh /tmp
+# ADD ffmpeg-vaapi.mk /tmp
+# RUN cd /tmp && make -f ./ffmpeg-vaapi.mk
+# ADD ffmpeg-cuda.mk /tmp
+# RUN cd /tmp && make -f ./ffmpeg-cuda.mk
+# ADD fcgi.mk /tmp
+# RUN cd /tmp && make -f ./fcgi.mk
+# ADD yuv.mk /tmp
+# RUN cd /tmp && make -f ./yuv.mk
 
 # Add entry point, we use entrypoint.sh to mapping host user to
 # container
