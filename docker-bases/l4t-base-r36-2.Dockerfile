@@ -19,9 +19,12 @@ RUN rm /tmp/Linux_for_Tegra /tmp/jetson-rootfs -r
 RUN apt-get install -y libasound-dev libfontconfig-dev libgstreamer1.0-dev \
 libgstreamer-plugins-bad1.0-dev libgstreamer-plugins-base1.0-dev \
 libgstreamer-plugins-good1.0-dev libx11-dev libxv-dev libv4l-dev libvdpau-dev \
-libdrm-dev libboost-all-dev libjpeg8-dev
+libdrm-dev libboost-all-dev libjpeg8-dev libva-dev
 RUN apt-get install -y cuda-cudart-dev-12-2 nvidia-tensorrt-dev libnpp-dev-12-2 \
 nvidia-opencv-dev
+
+# Jetson multimedia API
+ADD Jetson_Multimedia_API_R36.2.0_aarch64.tbz2 /
 
 RUN ldconfig
 RUN apt-get autoremove -y && apt-get clean
