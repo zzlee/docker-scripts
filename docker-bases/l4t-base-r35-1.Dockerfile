@@ -8,7 +8,7 @@ RUN echo "deb https://repo.download.nvidia.com/jetson/t234 r35.1 main" >> /etc/a
 
 RUN apt-get update -y
 RUN apt-get install -y build-essential software-properties-common
-RUN apt-get install -y bash-completion git vim wget cpio tcl cmake autoconf libtool
+RUN apt-get install -y bash-completion git vim wget cpio tcl cmake autoconf libtool ragel
 
 # Jetson packages
 ADD Jetson_Linux_R35.1.0_aarch64.tbz2 /tmp/
@@ -19,7 +19,7 @@ RUN rm /tmp/Linux_for_Tegra /tmp/jetson-rootfs -r
 RUN apt-get install -y libasound-dev libfontconfig-dev libgstreamer1.0-dev \
 libgstreamer-plugins-bad1.0-dev libgstreamer-plugins-base1.0-dev \
 libgstreamer-plugins-good1.0-dev libx11-dev libxv-dev libv4l-dev libvdpau-dev \
-libdrm-dev libboost-all-dev libjpeg8-dev libva-dev libgbm-dev libudev-dev
+libdrm-dev libboost-all-dev libjpeg8-dev libva-dev libgbm-dev libudev-dev libharfbuzz-dev
 RUN apt-get install -y cuda-cudart-dev-11-4 nvidia-tensorrt-dev libnpp-dev-11-4 \
 nvidia-opencv-dev
 
