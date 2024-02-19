@@ -6,7 +6,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt-get update -y
 RUN apt-get install -y build-essential software-properties-common
-RUN apt-get install -y bash-completion git vim wget cpio tcl cmake autoconf libtool
+RUN apt-get install -y bash-completion git vim wget cpio tcl cmake autoconf libtool bison flex
 
 RUN apt-get install -y libasound-dev libfontconfig-dev libgstreamer1.0-dev \
 libgstreamer-plugins-bad1.0-dev libgstreamer-plugins-base1.0-dev \
