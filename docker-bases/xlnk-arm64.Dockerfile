@@ -1,10 +1,11 @@
-FROM debian:buster-slim AS builder
+FROM debian:bullseye-slim AS builder
 
 ENV TZ=Asia/Taipei
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt-get update -y
-RUN apt-get install -y bash-completion build-essential git vim wget cpio tcl python locales
+RUN apt-get install -y bash-completion build-essential \
+git vim wget cpio tcl python locales libexpat1 libkeyutils1
 RUN locale-gen zh_TW.UTF-8 && update-locale
 
 # platform SDK
@@ -21,7 +22,7 @@ ADD entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
-FROM debian:buster-slim
+FROM debian:bullseye-slim
 
 COPY --from=builder /usr /usr
 COPY --from=builder /etc /etc
