@@ -12,4 +12,4 @@ xhost +
 	-v /sys/devices/:/sys/devices \
 	-v /dev/:/dev/ \
 	${DOCKER_IMAGE} \
-	sudo DISPLAY=${DISPLAY} su ${SUDO_USER}
+	sudo DISPLAY=${DISPLAY} su ${USER}
