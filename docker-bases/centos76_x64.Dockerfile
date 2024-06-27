@@ -10,7 +10,8 @@ RUN yum install -y git bash-completion wget cpio which
 # 3rdparty libs
 RUN yum install -y alsa-lib-devel libX11-devel libXv-devel \
 libva-devel libvdpau fontconfig-devel gstreamer1-devel \
-gstreamer1-plugins-base-devel mesa-libGL-devel libvdpau-devel
+gstreamer1-plugins-base-devel mesa-libGL-devel libvdpau-devel \
+systemd-devel
 
 # IPP
 ADD ipp.tar.gz /
