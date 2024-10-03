@@ -8,8 +8,9 @@ echo CONT=${CONT}
 
 # sysctl -w fs.inotify.max_user_watches="99999999"
 ./docker-run.sh -d -t \
-	--volume /home/zzlee/petalinux-cache:/docker/cache \
+	-v ~/petalinux-cache:/docker/cache \
+	-v /opt/:/opt/ \
 	--name ${CONT} \
 	${DOCKER_IMAGE} \
-	su - ${USER}
+	$@
 

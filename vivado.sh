@@ -17,5 +17,5 @@ xhost +
 	--name ${CONT} \
 	-v /sys/devices/:/sys/devices \
 	-v /dev/:/dev/ \
-	${DOCKER_IMAGE} \
-	su - ${USER}
+	-v /opt/:/opt/ \
+	${DOCKER_IMAGE} $@
