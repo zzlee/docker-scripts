@@ -44,8 +44,6 @@ ENV LC_ALL en_US.UTF-8
 RUN echo "dash dash/sh boolean false" | debconf-set-selections
 RUN DEBIAN_FRONTEND=noninteractive dpkg-reconfigure dash
 
-ADD http://qcap-registry:8888/entrypoint.sh /entrypoint.sh
+ADD entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
-
-RUN apt-get autoremove -y && apt-get clean
