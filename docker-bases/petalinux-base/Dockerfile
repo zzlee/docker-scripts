@@ -31,7 +31,7 @@ RUN apt-get install -y \
 # Extra package for Xilinx PetaLinux
 RUN apt-get install -y xvfb libtool libncurses5-dev libssl-dev zlib1g-dev:i386 tftpd
 RUN apt-get install -y iproute2 gcc g++ net-tools libncurses5-dev zlib1g:i386 libssl-dev flex bison libselinux1 xterm autoconf libtool texinfo zlib1g-dev gcc-multilib build-essential screen pax gawk python3 python3-pexpect python3-pip python3-git python3-jinja2 xz-utils debianutils iputils-ping libegl1-mesa libsdl1.2-dev pylint3 cpio
-RUN apt-get install -y sudo
+RUN apt-get install -y sudo libtinfo5
 
 # Set the locale, else yocto will complain
 RUN apt-get install locales -y
@@ -44,8 +44,6 @@ ENV LC_ALL en_US.UTF-8
 RUN echo "dash dash/sh boolean false" | debconf-set-selections
 RUN DEBIAN_FRONTEND=noninteractive dpkg-reconfigure dash
 
-ADD http://qcap-registry:8888/entrypoint.sh /entrypoint.sh
+ADD entrypoint.sh /
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
-
-RUN apt-get autoremove -y && apt-get clean
