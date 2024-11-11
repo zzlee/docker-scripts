@@ -1,6 +1,6 @@
 #!/bin/sh
 
-IMAGE=${IMAGE:-yuan88yuan/petalinux:v2020.2}
+IMAGE=${IMAGE:-yuan88yuan/petalinux:base}
 CONT=${CONT:-petalinux}
 EXTRA_OPTS=${EXTRA_OPTS:-"-v /opt/:/opt/"}
 

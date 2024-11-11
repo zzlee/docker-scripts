@@ -11,4 +11,4 @@ docker run -d -t \
 	--env=USER=${USER} \
 	--volume="/etc/localtime:/etc/localtime:ro" \
 	--name $CONT \
-	$IMAGE su - ${USER}
+	$IMAGE bash
