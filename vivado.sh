@@ -4,6 +4,7 @@ IMAGE=${IMAGE:-yuan88yuan/vivado:base}
 MAC_ADDR=${MAC_ADDR:-e0:d5:5e:66:22:b7}
 #MAC_ADDR=${MAC_ADDR:-02:42:ac:11:00:03}
 CONT=${CONT:-vivado}
+CMDS=${CMDS:-bash}
 EXTRA_OPTS=${EXTRA_OPTS:-"-v /opt/:/opt/"}
 
 echo IMAGE=$IMAGE
@@ -21,4 +22,4 @@ xhost +
 	-v /dev/:/dev/ \
 	${EXTRA_OPTS} \
 	${IMAGE} \
-	$@
+	${CMDS}

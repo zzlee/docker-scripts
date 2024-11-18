@@ -3,6 +3,7 @@
 IMAGE=${IMAGE:-yuan88yuan/petalinux:base}
 CONT=${CONT:-petalinux}
 EXTRA_OPTS=${EXTRA_OPTS:-"-v /opt/:/opt/"}
+CMDS=${CMDS:-bash}
 
 echo IMAGE=${IMAGE}
 echo CONT=${CONT}
@@ -14,5 +15,5 @@ echo EXTRA_OPTS=$EXTRA_OPTS
 	-v ~/petalinux-cache:/docker/cache \
 	${EXTRA_OPTS} \
 	${IMAGE} \
-	$@
+	${CMDS}
 
