@@ -51,6 +51,8 @@ libva-dev libgbm-dev libudev-dev libssl-dev ragel
 RUN apt-get install -y \
 cuda-cudart-dev-12-6 libnpp-dev-12-6
 
+ADD nvidia-tegra.conf /etc/ld.so.conf.d/
+
 RUN ldconfig
 RUN apt-get autoremove -y && apt-get clean
 
