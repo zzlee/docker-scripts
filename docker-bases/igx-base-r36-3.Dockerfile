@@ -46,12 +46,13 @@ libgstreamer-plugins-base1.0-dev libgstreamer-plugins-good1.0-dev
 
 RUN apt-get install -y libasound-dev libfontconfig-dev libx11-dev \
 libxv-dev libv4l-dev libvdpau-dev libdrm-dev libboost-all-dev libjpeg8-dev \
-libva-dev libgbm-dev libudev-dev libssl-dev ragel
+libva-dev libgbm-dev libudev-dev libssl-dev ragel libfmt-dev
 
 RUN apt-get install -y \
 cuda-cudart-dev-12-6 libnpp-dev-12-6
 
 ADD nvidia-tegra.conf /etc/ld.so.conf.d/
+RUN ln /usr/local/cuda/lib64/stubs/libcuda.so /usr/lib/aarch64-linux-gnu/libcuda.so -fs
 
 RUN ldconfig
 RUN apt-get autoremove -y && apt-get clean
