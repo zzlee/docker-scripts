@@ -1,4 +1,4 @@
-FROM nvidia/cuda:12.9.1-devel-ubuntu24.04 AS builder
+FROM nvidia/cuda:12.9.1-devel-ubuntu20.04 AS builder
 
 ENV TZ=Asia/Taipei
 ENV DEBIAN_FRONTEND noninteractive
@@ -6,7 +6,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt-get update -y
 RUN apt-get install -y bash-completion build-essential \
-git vim wget cpio tcl locales libexpat1 libkeyutils1
+git vim wget cpio tcl python locales libexpat1 libkeyutils1
 RUN locale-gen zh_TW.UTF-8 && update-locale
 
 RUN apt-get -y install automake libtool cmake yasm
@@ -17,7 +17,6 @@ ADD ipp.tar.gz /
 RUN echo /usr/local/cuda/compat > /etc/ld.so.conf.d/000_cuda-compat.conf
 RUN ldconfig
 
-RUN deluser ubuntu
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
