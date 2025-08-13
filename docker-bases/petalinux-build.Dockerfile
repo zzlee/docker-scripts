@@ -18,7 +18,7 @@ rm -rf /var/lib/apt-lists/* && \
 echo "dash dash/sh boolean false" | debconf-set-selections && \
 dpkg-reconfigure dash
 
-RUN apt-get install -yq lsb-release
+RUN apt-get install -yq lsb-release dnsutils
 
 RUN curl https://storage.googleapis.com/git-repo-downloads/repo > /bin/repo && chmod a+x /bin/repo
 RUN sed -i "1s/python/python3/" /bin/repo
