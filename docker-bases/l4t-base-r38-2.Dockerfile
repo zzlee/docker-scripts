@@ -25,11 +25,18 @@ nvidia-opencv-dev
 # Jetson multimedia API
 ADD Jetson_Multimedia_API_R38.2.1_aarch64.tbz2 /
 
+RUN apt-get install -y libicu-dev libgl-dev libopengl-dev
+RUN echo /usr/lib/aarch64-linux-gnu/tegra > /etc/ld.so.conf.d/nvidia-tegra.conf
+
 RUN ldconfig
 RUN apt-get autoremove -y && apt-get clean
+
+FROM yuan88yuan/l4t-base:r38.2-iso
+
+COPY --from=builder /usr /usr
+COPY --from=builder /etc /etc
+COPY --from=builder /opt /opt
 
 RUN groupadd build --gid 1000 && \
 useradd build --shell /bin/bash --create-home --uid 1000 --gid 1000 -G sudo && \
 echo 'build:build' | chpasswd
-
-USER build
