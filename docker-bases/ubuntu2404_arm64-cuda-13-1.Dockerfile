@@ -13,7 +13,8 @@ RUN apt-get -y install automake libtool cmake yasm
 RUN apt-get install -y libgl1-mesa-dev libxext-dev libasound2-dev libx11-dev \
 libxv-dev libva-dev libvdpau-dev libfontconfig1-dev libgstreamer1.0-dev \
 libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev libi2c-dev libudev-dev
-# RUN echo /usr/local/cuda/compat > /etc/ld.so.conf.d/000_cuda-compat.conf
+RUN apt-get install -y libfmt-dev libibverbs-dev
+RUN echo /usr/local/cuda/compat > /etc/ld.so.conf.d/000_cuda-compat.conf
 RUN ldconfig
 
 RUN deluser ubuntu
