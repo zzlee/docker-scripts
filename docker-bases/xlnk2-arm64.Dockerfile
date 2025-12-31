@@ -14,9 +14,9 @@ RUN cd /tmp && chmod +x ./sdk.sh && ./sdk.sh -y -d /opt/sc6f0
 RUN ln /opt/sc6f0/environment-setup-cortexa72-cortexa53-xilinx-linux /opt/qcap-dev-init -fs && \
 chmod +x /opt/qcap-dev-init
 
-RUN apt-get install -y build-essential
+ RUN apt-get install -y build-essential
 
-RUN ldconfig
+# RUN ldconfig
 # RUN apt-get autoremove -y && apt-get clean
 
 ADD entrypoint.sh /entrypoint.sh
