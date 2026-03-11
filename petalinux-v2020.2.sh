@@ -13,4 +13,5 @@ docker run -itd --rm --name ${CONT} \
 	-v /etc/timezone:/etc/timezone \
 	-v /etc/localtime:/etc/localtime \
 	-v ~/petalinux-cache:/docker/cache \
+	-w /docker \
 	${IMAGE} $@
