@@ -8,7 +8,7 @@ echo IMAGE=$IMAGE
 echo CONT=$CONT
 echo EXTRA_OPTS=$EXTRA_OPTS
 
-docker run -d -t \
+docker run -idt --rm \
 	--workdir /docker \
 	--volume $(pwd)/..:/docker \
 	--env=HOST_UID=${UID} \
