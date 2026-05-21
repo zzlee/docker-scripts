@@ -5,12 +5,12 @@ set -euo pipefail
 usage() {
     cat <<'EOF'
 Usage:
-  ./scripts/docker-run.sh <image-tag> [command ...]
+  ./scripts/docker-run-toolchain.sh <image-tag> [command ...]
 
 Examples:
-  ./scripts/docker-run.sh qcap-dev:xlnk2_arm64
-  ./scripts/docker-run.sh qcap-dev:xlnk2_arm64 bash
-  ./scripts/docker-run.sh qcap-dev:xlnk2_arm64 ./build-qcap.sh xlnk2_arm64 install
+  ./scripts/docker-run-toolchain.sh qcap-dev:xlnk2_arm64
+  ./scripts/docker-run-toolchain.sh qcap-dev:xlnk2_arm64 bash
+  ./scripts/docker-run-toolchain.sh qcap-dev:xlnk2_arm64 ./build-qcap.sh xlnk2_arm64 install
 EOF
 }
 
@@ -54,6 +54,10 @@ RUN_CMD+=(
     -e "HOME=${HOST_HOME}"
     -e "TERM=${TERM:-xterm-256color}"
     -v "${HOST_HOME}:${HOST_HOME}"
+	-v /opt:/opt
+	-v /etc/timezone:/etc/timezone
+	-v /etc/localtime:/etc/localtime
+	-v ~/petalinux-cache:/docker/cache
     -w "${WORK_DIR}"
     "${IMAGE_TAG}"
 )
