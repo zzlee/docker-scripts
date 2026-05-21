@@ -1,0 +1,58 @@
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
+
+ARG USERNAME=builder
+ARG UID=1000
+ARG GID=1000
+
+USER root
+
+RUN set -eux; \
+    if ! getent group "${GID}" >/dev/null; then \
+        if getent group "${USERNAME}" >/dev/null; then \
+            groupmod -g "${GID}" "${USERNAME}"; \
+        else \
+            groupadd -g "${GID}" "${USERNAME}"; \
+        fi; \
+    fi; \
+    EXISTING_UID_USER="$(getent passwd "${UID}" 2>/dev/null | cut -d: -f1)"; \
+    if [ -n "${EXISTING_UID_USER}" ] && [ "${EXISTING_UID_USER}" != "${USERNAME}" ] && [ "${EXISTING_UID_USER}" != "root" ]; then \
+        usermod -u 65533 "${EXISTING_UID_USER}"; \
+    fi; \
+    if id "${USERNAME}" >/dev/null 2>&1; then \
+        usermod -u "${UID}" -g "${GID}" "${USERNAME}"; \
+    else \
+        useradd -m -u "${UID}" -g "${GID}" -s /bin/bash "${USERNAME}"; \
+    fi; \
+    if [ -n "${EXISTING_UID_USER}" ] && [ "${EXISTING_UID_USER}" != "${USERNAME}" ] && [ "${EXISTING_UID_USER}" != "root" ]; then \
+        EX_HOME="$(getent passwd 65533 2>/dev/null | cut -d: -f6)"; \
+        if [ -n "${EX_HOME}" ] && [ -d "${EX_HOME}" ]; then \
+            chown -R 65533:65533 "${EX_HOME}" 2>/dev/null || true; \
+        fi; \
+    fi; \
+    HOME_DIR="$(getent passwd "${USERNAME}" | cut -d: -f6)"; \
+    if [ -n "${HOME_DIR}" ] && [ -d "${HOME_DIR}" ]; then \
+        chown -R "${UID}":"${GID}" "${HOME_DIR}"; \
+    fi; \
+    if ! command -v sudo >/dev/null 2>&1; then \
+        if command -v apt-get >/dev/null 2>&1; then \
+            apt-get update; \
+            apt-get install -y sudo; \
+            rm -rf /var/lib/apt/lists/*; \
+        fi; \
+    fi; \
+    if command -v sudo >/dev/null 2>&1; then \
+        if getent group sudo >/dev/null; then \
+            usermod -aG sudo "${USERNAME}"; \
+        elif getent group wheel >/dev/null; then \
+            usermod -aG wheel "${USERNAME}"; \
+        fi; \
+        mkdir -p /etc/sudoers.d; \
+        printf '%s\n' "${USERNAME} ALL=(ALL) NOPASSWD:ALL" > "/etc/sudoers.d/90-${USERNAME}"; \
+        chmod 0440 "/etc/sudoers.d/90-${USERNAME}"; \
+    fi;
+
+USER ${USERNAME}
+
+ENTRYPOINT ["/bin/bash", "-lc", "exec \"$@\"", "--"]
+CMD ["bash"]
