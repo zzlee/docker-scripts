@@ -50,7 +50,10 @@ fi
 
 RUN_CMD+=(
     --user "${HOST_UID}:${HOST_GID}"
+    --entrypoint /bin/bash
     -e "USER=${HOST_USER}"
+    -e "HOST_UID=${HOST_UID}"
+    -e "HOST_GID=${HOST_GID}"
     -e "HOME=${HOST_HOME}"
     -e "TERM=${TERM:-xterm-256color}"
     -v "${HOST_HOME}:${HOST_HOME}"
@@ -59,9 +62,10 @@ RUN_CMD+=(
 )
 
 if [[ $# -gt 0 ]]; then
-    RUN_CMD+=("$@")
+    printf -v SHELL_CMD '%q ' "$@"
+    RUN_CMD+=( -lc "${SHELL_CMD}" )
 else
-    RUN_CMD+=(bash)
+    RUN_CMD+=( -l )
 fi
 
 echo "Image: ${IMAGE_TAG}"
